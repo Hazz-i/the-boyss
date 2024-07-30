@@ -9,4 +9,4 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 from app import routes
-from app.model import user
+from app.model import user, bailout, ledger, information, gallon, driverGallon, notification
