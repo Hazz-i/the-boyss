@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Information;
+use App\Models\Ledger;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,11 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Ledger::factory(30)->create();
         // User::factory(10)->create();
 
         User::factory()->create([
             'name' => 'Developer',
+            'username' => 'developer',
             'email' => 'developer@gmail.com',
+            'whatsapp' => '081234567890',
             'password' => '12341234',
         ]);
 

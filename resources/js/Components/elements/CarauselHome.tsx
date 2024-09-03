@@ -17,6 +17,7 @@ export function CarauselHome() {
             title: "Kas",
             saldo: "Rp. 1.000.000",
             describe: "Semua sudah membayar kas",
+            kas: "150.000",
         },
         {
             icon: "bxl-slack",
@@ -53,7 +54,13 @@ export function CarauselHome() {
                                                     : "text-gray-500 "
                                             }`}
                                         >
-                                            <div className="py-1 px-2 boder dark:bg-gray-800 rounded-xl ">
+                                            <div
+                                                className={`boder ${
+                                                    index % 2 !== 0
+                                                        ? "bg-[#368CB6]"
+                                                        : "bg-[#E5E6EC]"
+                                                } py-1 px-2 dark:bg-gray-800 rounded-xl`}
+                                            >
                                                 <i
                                                     className={`bx ${card.icon} text-xl`}
                                                 />
@@ -61,6 +68,11 @@ export function CarauselHome() {
                                             <h1 className="text-2xl ">
                                                 {card.title}
                                             </h1>
+                                            {card.kas && (
+                                                <small className="text-green-500 pt-2">
+                                                    Rp. {card.kas}
+                                                </small>
+                                            )}
                                         </span>
                                         <small
                                             className={` ${

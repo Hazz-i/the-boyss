@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id'); // ID anggota
             $table->string('transaction_purpose'); // Tujuan transaksi
+            $table->enum('status', ["IN", "OUT"]); // Status transaksi
             $table->decimal('amount', 10, 2)->default(0.00); // Jumlah transaksi
             $table->decimal('final_balance', 10, 2)->default(0.00); // Saldo akhir
             $table->string('manual_prof')->nullable();

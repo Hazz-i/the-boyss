@@ -44,4 +44,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function ledger()
+    {
+        return $this->hasMany(Ledger::class, 'user_id', 'id');
+    }
+
+    public function talangan()
+    {
+        return $this->hasMany(Talangan::class, 'user_id', 'id');
+    }
 }

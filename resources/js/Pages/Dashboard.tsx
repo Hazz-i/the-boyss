@@ -2,11 +2,10 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { CarauselHome } from "@/Components/elements/CarauselHome";
-import { Button } from "@/Components/ui/button";
 import CardHome from "@/Components/elements/CardHome";
-import { Card, CardContent } from "@/Components/ui/card";
+import { formatDate, formatAmount } from "@/formater";
 
-export default function Dashboard({ auth }: PageProps) {
+export default function Dashboard({ auth, ledgers }: PageProps) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -70,49 +69,58 @@ export default function Dashboard({ auth }: PageProps) {
                 {/* END INFORMASI */}
 
                 {/* HISTORY */}
-                <div>
+                <div className="grid gap-2">
                     <h1 className="text-xl font-bold">Transaksi Terakhir</h1>
-                    <span className="grid grid-cols-1 rounded-lg border">
-                        <div className="flex items-center justify-between p-2">
-                            <span className="flex gap-2 items-center">
-                                <div className="p-3 flex items-center justify-center rounded-lg border bg-gray-200 text-[#368CB6]">
-                                    <i className="bx bx-drink font-extrabold"></i>
-                                </div>
-                                <div className="grid">
-                                    <h1 className="font-semibold text-lg">
-                                        Kas
-                                    </h1>
-                                    <small>02-09-2024</small>
+                    <div className="grid grid-cols-1 rounded-lg shadow-md border">
+                        {ledgers.map((ledger: any, index: number) => (
+                            <span
+                                key={index}
+                                className={`flex items-center justify-between p-2 ${
+                                    (index + 1) % 2 === 0 ? "bg-gray-200" : ""
+                                }`}
+                            >
+                                <span className="flex gap-2 items-center">
+                                    <div className="p-3 flex items-center justify-center rounded-lg border bg-gray-100 text-[#368CB6]">
+                                        <i
+                                            className={`bx ${
+                                                ledger.transaction_purpose.includes(
+                                                    "Listrik"
+                                                )
+                                                    ? "bx-power-off"
+                                                    : ledger.transaction_purpose.includes(
+                                                          "Kas"
+                                                      )
+                                                    ? "bx-wallet"
+                                                    : "bx-water"
+                                            } font-extrabold`}
+                                        ></i>
+                                    </div>
+                                    <div className="grid">
+                                        <h1 className="font-semibold text-lg">
+                                            {ledger.transaction_purpose}
+                                        </h1>
+                                        <small>
+                                            {formatDate(ledger.created_at)}
+                                        </small>
+                                    </div>
+                                </span>
+                                <div className="flex flex-col justify-center items-end">
+                                    {ledger.status === "OUT" ? (
+                                        <p className="font-semibold text-lg text-red-500">
+                                            - {formatAmount(ledger.amount)}
+                                        </p>
+                                    ) : (
+                                        <p className="font-semibold text-lg text-green-500">
+                                            + {formatAmount(ledger.amount)}
+                                        </p>
+                                    )}
+                                    <small className="font-semibold">
+                                        {ledger.user_id}
+                                    </small>
                                 </div>
                             </span>
-                            <div className="flex flex-col justify-center items-end">
-                                <p className="font-semibold text-lg text-green-500">
-                                    + Rp.150.000
-                                </p>
-                                <small className="font-semibold">wahid</small>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center justify-between bg-gray-200 p-2">
-                            <span className="flex gap-2 items-center">
-                                <div className="p-3 flex items-center justify-center rounded-lg border bg-gray-100 text-[#368CB6]">
-                                    <i className="bx bx-drink font-extrabold"></i>
-                                </div>
-                                <div className="grid">
-                                    <h1 className="font-semibold text-lg">
-                                        Bayar Listrik
-                                    </h1>
-                                    <small>02-09-2024</small>
-                                </div>
-                            </span>
-                            <div className="flex flex-col justify-center items-end">
-                                <p className="font-semibold text-lg text-red-500">
-                                    - Rp.150.000
-                                </p>
-                                <small className="font-semibold">wahid</small>
-                            </div>
-                        </div>
-                    </span>
+                        ))}
+                    </div>
                 </div>
                 {/* END HISTORY */}
             </div>

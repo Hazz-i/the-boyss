@@ -5,12 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Talangan extends Model
+class Ledger extends Model
 {
     use HasFactory;
-
-    use HasFactory;
-
     protected $guarded = ['id'];
 
     public function user()

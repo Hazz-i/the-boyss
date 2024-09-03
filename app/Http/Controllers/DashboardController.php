@@ -2,17 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ledger;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class TransactionController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('Transaction/Index');
+        $query = Ledger::query();
+
+        $currentMonthStart = \Carbon\Carbon::now()->startOfMonth();
+        $currentMonthEnd = \Carbon\Carbon::now()->endOfMonth();
+    
+        $query->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd]);
+
+        return Inertia::render('Dashboard', [
+            'ledgers' => $query->limit(5)->get(),
+        ]);
     }
 
     /**

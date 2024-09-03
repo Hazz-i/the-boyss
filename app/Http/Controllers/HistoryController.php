@@ -2,17 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ledger;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class TransactionController extends Controller
+class HistoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('Transaction/Index');
+        $query = Ledger::query();
+    
+        if (request('month')) {
+            $month = request('month');
+            
+            $startOfMonth = \Carbon\Carbon::createFromFormat('F', $month)->startOfMonth();
+            $endOfMonth = \Carbon\Carbon::createFromFormat('F', $month)->endOfMonth();
+            
+            $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+        } else {
+            $currentMonthStart = \Carbon\Carbon::now()->startOfMonth();
+            $currentMonthEnd = \Carbon\Carbon::now()->endOfMonth();
+    
+            $query->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd]);
+        }
+    
+        return Inertia::render('History/Index', [
+            "queryParams" => request()->query()?:null, 
+            'ledgers' => $query->paginate(10)->onEachSide(1),
+        ]);
     }
 
     /**

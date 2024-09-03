@@ -1,4 +1,4 @@
-import { useState, PropsWithChildren, ReactNode } from "react";
+import React, { useState, PropsWithChildren, ReactNode } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
@@ -7,39 +7,14 @@ import { Link } from "@inertiajs/react";
 import { User } from "@/types";
 import { Button } from "@/Components/ui/button";
 import { ModeToggle } from "@/Components/mode-toogle";
-import { icons } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/Components/ui/avatar";
-
-const navigations = [
-    {
-        name: "Home",
-        icon: "bx-home-alt-2",
-        icon_active: "bxs-home-alt-2",
-        href: route("dashboard"),
-        current: route().current("dashboard"),
-    },
-    {
-        name: "Transaksi",
-        icon: "bx-coin",
-        icon_active: "bxs-coin",
-        href: route("dashboard"),
-        current: route().current("dashboard"),
-    },
-    {
-        name: "Riwayat",
-        icon: "bx-notepad",
-        icon_active: "bxs-notepad",
-        href: route("dashboard"),
-        current: route().current("dashboard"),
-    },
-    {
-        name: "Profile",
-        icon: "bx-user-circle",
-        icon_active: "bxs-user-circle",
-        href: route("profile.edit"),
-        current: route().current("profile.edit"),
-    },
-];
+import { Avatar, AvatarImage } from "@/Components/ui/avatar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/Components/ui/dropdown-menu";
 
 export default function Authenticated({
     user,
@@ -48,6 +23,7 @@ export default function Authenticated({
 }: PropsWithChildren<{ user: User; header?: ReactNode }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+    const [position, setPosition] = React.useState("bottom");
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -163,44 +139,83 @@ export default function Authenticated({
             {header && (
                 <header className="max-w-7xl mx-auto  flex items-center justify-between py-6 px-4 sm:px-6 lg:px-8">
                     <span className="text-xl font-semibold flex gap-2 items-center">
-                        <i className="bx bxs-cat"></i>The Boys 5
+                        <i className="bx bxs-cat text-2xl"></i>The Boys 5
                     </span>
-                    <ModeToggle />
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Avatar className="w-10 h-10">
+                                <AvatarImage
+                                    src="https://github.com/shadcn.png"
+                                    alt="@shadcn"
+                                />
+                            </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56">
+                            <DropdownMenuLabel className="flex items-center gap-2">
+                                <i className="bx bxs-cat text-lg"></i>
+                                {user.email}
+                            </DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <Link
+                                href={route("profile.edit")}
+                                className="flex gap-2 items-center justify-start ps-5 py-1"
+                            >
+                                <i className="bx bx-user-circle"></i>Profile
+                            </Link>
+                            <Link
+                                href={route("notification.index")}
+                                className="flex gap-2 items-center justify-start ps-5 py-1"
+                            >
+                                <i className="bx bx-bell"></i>Notification
+                            </Link>
+                            <Link
+                                href={route("logout")}
+                                className="flex gap-2 items-center justify-start ps-5 py-1 text-red-500"
+                            >
+                                <i className="bx bx-log-out rotate-180"></i>
+                                Logout
+                            </Link>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </header>
             )}
 
             <main>{children}</main>
 
-            <div className="fixed bottom-0 w-full py-3 border flex items-center justify-center gap-10 bg-[#E5E6EC] dark:bg-gray-950 rounded-tl-3xl rounded-tr-3xl lg:hidden">
+            <div className="fixed bottom-0 w-full py-2 border flex items-center justify-center gap-8 bg-[#E5E6EC] dark:bg-gray-950 rounded-tl-3xl rounded-tr-3xl lg:hidden outline-1 outline outline-gray-400">
                 <NavLink
                     href={"/dashboard"}
-                    active={route().current("dashboard")}
+                    active={route().current("dashboard.index")}
                     icon={"bx-home-alt-2"}
                     icon_active={"bxs-home-alt-2"}
+                    name={"Home"}
                 />
                 <NavLink
-                    href={"/dashboard"}
-                    active={route().current("dashboard")}
+                    href={"/transaksi"}
+                    active={route().current("transaksi.index")}
                     icon={"bx-transfer"}
                     icon_active={"bx-transfer"}
+                    name={"Transaksi"}
                 />
                 <Link
                     href="/"
-                    className="flex items-center justify-center w-14 h-14 rounded-full text-white bg-blue-900 dark:text-black dark:bg-white shadow-gray-200 shadow-lg"
+                    className="flex items-center justify-center w-14 h-14 rounded-full text-white bg-[#5CA4C5] dark:text-black dark:bg-white shadow-gray-200 shadow-lg dark:shadow-sm"
                 >
                     <h1 className="text-3xl font-serif">+</h1>
                 </Link>
                 <NavLink
-                    href={"/dashboard"}
-                    active={route().current("dashboard")}
+                    href={"/history"}
+                    active={route().current("history.index")}
                     icon={"bx-notepad"}
                     icon_active={"bxs-notepad"}
+                    name={"History"}
                 />
                 <NavLink
-                    href={"/profile/edit"}
+                    href={"/profile"}
                     active={route().current("profile.edit")}
                     icon={"bx-user-circle"}
                     icon_active={"bxs-user-circle"}
+                    name={"Profile"}
                 ></NavLink>
             </div>
         </div>

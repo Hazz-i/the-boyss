@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GalonController;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TalanganController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -13,13 +18,11 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    // Route::group(['prefix' => 'transaction'], function () {
-    //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    // });
-
-    Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
+    Route::resource('/dashboard',DashboardController::class); 
+    Route::resource('/transaksi', TransactionController::class);
+    Route::resource('/history', HistoryController::class);
+    Route::resource('/galon', GalonController::class);
+    Route::resource('/notification', NotificationController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
