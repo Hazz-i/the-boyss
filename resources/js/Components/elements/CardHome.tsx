@@ -5,9 +5,9 @@ type CardProps = {
 const CardHome = ({ title }: CardProps) => {
     return (
         <div className="py-5 shadow-md rounded-lg grid gap-5 border ">
-            <h1 className="text-center font-extrabold text-xl">{title}</h1>
-            <div className="flex items-start justify-between px-5">
-                <span className="grid">
+            <h1 className="text-center font-bold text-2xl">{title}</h1>
+            <div className="flex items-start justify-between px-5 pb-3">
+                <span className="grid gap-2">
                     <h1 className="text-center text-lg font-semibold">Wifi</h1>
                     <table className="text-sm">
                         <tbody>
@@ -29,7 +29,7 @@ const CardHome = ({ title }: CardProps) => {
                         </tbody>
                     </table>
                 </span>
-                <span className="grid">
+                <span className="grid gap-2">
                     <h1 className="text-center text-lg font-semibold">
                         Lain-lain
                     </h1>

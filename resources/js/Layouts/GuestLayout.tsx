@@ -168,9 +168,7 @@ export default function Guest({ children }: PropsWithChildren) {
                 </svg>
             </div>
 
-            <div className="w-full sm:max-w-md sm:shadow-md overflow-hidden sm:rounded-lg">
-                {children}
-            </div>
+            <div className="w-full ">{children}</div>
         </div>
     );
 }

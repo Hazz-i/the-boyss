@@ -2,6 +2,10 @@ export interface User {
     id: number;
     name: string;
     email: string;
+    role: string;
+    galon: boolean;
+    image: string;
+    whatsapp: string;
     email_verified_at?: string;
 }
 
@@ -12,4 +16,9 @@ export type PageProps<
         user: User;
     };
     ledgers: any;
+    kas: number;
+    peopleRemaining: number;
+    currentSaldo: number;
+    users: any;
+    defaulKas: number;
 };

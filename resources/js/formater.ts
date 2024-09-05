@@ -1,4 +1,4 @@
-import { format, parseISO } from "date-fns";
+// import { format, parseISO } from "date-fns";
 
 export const formatAmount = (amount: any) => {
     const numericAmount =
@@ -12,8 +12,13 @@ export const formatAmount = (amount: any) => {
 };
 
 export const formatDate = (dateString: string) => {
-    const date = parseISO(dateString);
-    return format(date, "dd-MM-yyyy");
+    const date = new Date(dateString);
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Bulan dimulai dari 0
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
 };
 
 export const months: string[] = [

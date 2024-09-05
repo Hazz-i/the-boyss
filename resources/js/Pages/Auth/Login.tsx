@@ -48,6 +48,7 @@ export default function Login({
                             name="email"
                             value={data.email}
                             autoComplete="username"
+                            leftAddon={<i className="bx bx-mail-send"></i>}
                             onChange={(e) => setData("email", e.target.value)}
                             placeholder="Masukan alamat email"
                         />
@@ -59,8 +60,8 @@ export default function Login({
                             // id="password"
                             type="password"
                             name="password"
+                            leftAddon={<i className="bx bx-key"></i>}
                             value={data.password}
-                            className="mt-1 block w-full"
                             autoComplete="current-password"
                             onChange={(e) =>
                                 setData("password", e.target.value)
@@ -104,7 +105,11 @@ export default function Login({
                     )}
                 </div>
 
-                <Button disabled={processing} className="mt-5 w-full">
+                <Button
+                    disabled={processing}
+                    className="mt-5 w-full"
+                    variant={"primary"}
+                >
                     Masuk
                 </Button>
             </form>

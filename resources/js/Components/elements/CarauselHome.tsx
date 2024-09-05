@@ -8,16 +8,44 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/Components/ui/carousel";
-import { describe } from "node:test";
+import { formatAmount, formatDate, months } from "@/formater";
 
-export function CarauselHome() {
+type CarauselProps = {
+    kas: number;
+    peopleRemaining: number;
+    currentSaldo: number;
+    defautlKas: number;
+};
+
+export function CarauselHome({
+    kas,
+    peopleRemaining,
+    currentSaldo,
+    defautlKas,
+}: CarauselProps): JSX.Element {
     const CarauselCards = [
+        {
+            icon: "bx-dollar",
+            title: "Saldo",
+            saldo: `${formatAmount(currentSaldo)}`,
+            describe: `${
+                currentSaldo == 0
+                    ? "🥵 Saldo Abis bang"
+                    : currentSaldo === 0.5 * kas
+                    ? "🫣 Saldo tinggal setegah"
+                    : "🤫🙂‍↔️ Masi kaya broh.."
+            }`,
+        },
         {
             icon: "bxs-wallet",
             title: "Kas",
-            saldo: "Rp. 1.000.000",
-            describe: "Semua sudah membayar kas",
-            kas: "150.000",
+            saldo: `${formatAmount(kas)}`,
+            describe: `${
+                peopleRemaining == 0
+                    ? "semua sudah bayar kas"
+                    : `${peopleRemaining} orang belum bayar kas`
+            }`,
+            kas: `${defautlKas ? formatAmount(defautlKas) : ""}`,
         },
         {
             icon: "bxl-slack",
@@ -26,6 +54,7 @@ export function CarauselHome() {
             describe: "talangan yang belum diambil",
         },
     ];
+
     return (
         <Carousel
             opts={{
@@ -51,7 +80,7 @@ export function CarauselHome() {
                                             className={`flex items-center gap-2 font-bold ${
                                                 index % 2 !== 0
                                                     ? "text-gray-200"
-                                                    : "text-gray-500 "
+                                                    : "text-gray-500"
                                             }`}
                                         >
                                             <div
@@ -69,7 +98,7 @@ export function CarauselHome() {
                                                 {card.title}
                                             </h1>
                                             {card.kas && (
-                                                <small className="text-green-500 pt-2">
+                                                <small className="text-green-300 pt-2">
                                                     Rp. {card.kas}
                                                 </small>
                                             )}
@@ -81,13 +110,15 @@ export function CarauselHome() {
                                                     : "text-gray-500 "
                                             }`}
                                         >
-                                            09-24
+                                            {months[new Date().getMonth()]}
                                         </small>
                                     </div>
                                     <p className="text-2xl font-bold w-full text-center">
                                         {card.saldo};
                                     </p>
-                                    <p className="w-full text-center font-mono">
+                                    <p
+                                        className={`w-full text-center text-sm py-1  rounded-lg`}
+                                    >
                                         {card.describe}
                                     </p>
                                 </CardContent>

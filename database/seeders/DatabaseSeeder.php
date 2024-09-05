@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\DefaultKas;
 use App\Models\Information;
 use App\Models\Ledger;
 use App\Models\User;
@@ -15,22 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ledger::factory(30)->create();
-        // User::factory(10)->create();
-
         User::factory()->create([
             'name' => 'Developer',
             'username' => 'developer',
+            'galon' => true,   
             'email' => 'developer@gmail.com',
             'whatsapp' => '081234567890',
             'password' => '12341234',
         ]);
 
-        // Information::factory()->create([
-        //     'title' => 'WIFI',
-        //     'Id' => '12615566',
-        //     'SSID' => 'The Boys 5',
-        //     'Password' => '1sampai10',
-        //     ]);
+        DefaultKas::factory()->create();
     }
 }

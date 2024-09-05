@@ -9,133 +9,48 @@ import { Button } from "@/Components/ui/button";
 import { ModeToggle } from "@/Components/mode-toogle";
 import { Avatar, AvatarImage } from "@/Components/ui/avatar";
 import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/Components/ui/dialog";
+import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
+import { Modal } from "@/Components/elements/Modal";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/Components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
+import { Textarea } from "@/Components/ui/textarea";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/Components/ui/card";
+import KasForm from "@/Pages/Transaction/kas/Create";
 
 export default function Authenticated({
     user,
     header,
     children,
-}: PropsWithChildren<{ user: User; header?: ReactNode }>) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+}: PropsWithChildren<{
+    user: User;
+    header?: ReactNode;
+}>) {
     const [position, setPosition] = React.useState("bottom");
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-            {/* <nav className=" border-b border-gray-100 dark:border-gray-900">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current dark:text-gray-300 text-gray-800" />
-                                </Link>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route("dashboard")}
-                                    active={route().current("dashboard")}
-                                >
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
-
-                        <div className="hidden sm:flex sm:items-center sm:ms-6">
-                            <div className="ms-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                            >
-                                                {user.name}
-
-                                                <svg
-                                                    className="ms-2 -me-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </Dropdown.Trigger>
-
-                                    <Dropdown.Content>
-                                        <Dropdown.Link
-                                            href={route("profile.edit")}
-                                        >
-                                            Profile
-                                        </Dropdown.Link>
-                                        <Dropdown.Link
-                                            href={route("logout")}
-                                            method="post"
-                                            as="button"
-                                        >
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <div className="-me-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() =>
-                                    setShowingNavigationDropdown(
-                                        (previousState) => !previousState
-                                    )
-                                }
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
-                            >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        className={
-                                            !showingNavigationDropdown
-                                                ? "inline-flex"
-                                                : "hidden"
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={
-                                            showingNavigationDropdown
-                                                ? "inline-flex"
-                                                : "hidden"
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </nav> */}
-
             {header && (
                 <header className="max-w-7xl mx-auto  flex items-center justify-between py-6 px-4 sm:px-6 lg:px-8">
                     <span className="text-xl font-semibold flex gap-2 items-center">
@@ -168,13 +83,17 @@ export default function Authenticated({
                             >
                                 <i className="bx bx-bell"></i>Notification
                             </Link>
-                            <Link
-                                href={route("logout")}
-                                className="flex gap-2 items-center justify-start ps-5 py-1 text-red-500"
-                            >
-                                <i className="bx bx-log-out rotate-180"></i>
-                                Logout
-                            </Link>
+                            <Modal
+                                title="Logout"
+                                description="Apakah anda yakin ingin keluar dari aplikasi?"
+                                action="Logout"
+                                trigger={
+                                    <button className="flex gap-2 items-center justify-start ps-5 py-1 text-red-500">
+                                        <i className="bx bx-log-out rotate-180"></i>
+                                        Logout
+                                    </button>
+                                }
+                            />
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </header>
@@ -197,12 +116,57 @@ export default function Authenticated({
                     icon_active={"bx-transfer"}
                     name={"Transaksi"}
                 />
-                <Link
-                    href="/"
-                    className="flex items-center justify-center w-14 h-14 rounded-full text-white bg-[#5CA4C5] dark:text-black dark:bg-white shadow-gray-200 shadow-lg dark:shadow-sm"
-                >
-                    <h1 className="text-3xl font-serif">+</h1>
-                </Link>
+
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <button className="flex items-center justify-center w-14 h-14 rounded-full text-white bg-[#5CA4C5] dark:text-black dark:bg-white shadow-gray-200 shadow-lg dark:shadow-sm">
+                            <i className="bx bx-plus text-2xl"></i>
+                        </button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-sm sm:max-w-[425px] rounded-lg">
+                        <DialogHeader>
+                            <DialogTitle>Opsi Cepat</DialogTitle>
+                            <DialogDescription>
+                                Shortcut untuk memasukan kas dan talangan
+                            </DialogDescription>
+                        </DialogHeader>
+                        <Tabs defaultValue="kas" className="w-sm">
+                            <TabsList className="grid w-full grid-cols-2">
+                                <TabsTrigger value="kas">Kas</TabsTrigger>
+                                <TabsTrigger value="talangan">
+                                    Talangan
+                                </TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="kas" className="grid gap-2">
+                                <KasForm user={user} />
+                            </TabsContent>
+                            <TabsContent
+                                value="talangan"
+                                className="grid gap-2"
+                            >
+                                <div className="space-y-1">
+                                    <Label htmlFor="name">Nomimal</Label>
+                                    <Input
+                                        type="number"
+                                        id="name"
+                                        placeholder="12000"
+                                        leftAddon={<i>Rp</i>}
+                                    />
+                                </div>
+                                <div className="space-y-1">
+                                    <Label htmlFor="name">Keterangan</Label>
+                                    <Textarea placeholder="Tulis keterangan disini" />
+                                </div>
+                                <div className="grid w-full max-w-sm items-center gap-1.5">
+                                    <Label htmlFor="picture">Bukti</Label>
+                                    <Input id="picture" type="file" />
+                                </div>
+                                <Button variant="primary">Kirim</Button>
+                            </TabsContent>
+                        </Tabs>
+                    </DialogContent>
+                </Dialog>
+
                 <NavLink
                     href={"/history"}
                     active={route().current("history.index")}

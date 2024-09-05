@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('talangans', function (Blueprint $table) {
+    Schema::create('default_kas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->integer('amount');
-            $table->string('tujuan');
-            $table->string('bukti')->nullable();
-            $table->boolean('dikembalikan')->default(false);
+            $table->decimal('default_kas', 10, 2)->default(125000.00); // Saldo akhir
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('talangans');
+        Schema::dropIfExists('default_kas');
     }
 };

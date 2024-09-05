@@ -17,6 +17,7 @@ import {
 } from "@/Components/ui/dialog";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Modal } from "@/Components/elements/Modal";
 
 export default function Edit({
     auth,
@@ -42,22 +43,80 @@ export default function Edit({
                 <span className="flex flex-col items-center justify-center gap-2">
                     <Avatar className="w-32 h-32">
                         <AvatarImage
-                            src="https://github.com/shadcn.png"
+                            src={`${
+                                auth.user.image !== null
+                                    ? auth.user.image
+                                    : "https://github.com/shadcn.png"
+                            }`}
                             alt="@shadcn"
                         />
                     </Avatar>
                     <div className="flex flex-col items-center justify-center text-sm">
-                        <p className="font-semibold text-lg">
+                        <p className="font-semibold text-lg items-center flex gap-1">
                             {auth.user.name}
+                            <i
+                                className={`text-xl bx ${
+                                    auth.user.role.toLocaleLowerCase() ==
+                                    "anggota"
+                                        ? "bx-group"
+                                        : auth.user.role.toLocaleLowerCase() ==
+                                          "bendahara"
+                                        ? "bx-dollar-circle text-yellow-500"
+                                        : "bx bx-user"
+                                }`}
+                            ></i>
                         </p>
                         <p>{auth.user.email}</p>
                     </div>
-                    <Button className="bg-[#5CA4C5]">Edit Profile</Button>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant={"primary"}>Edit Profile</Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-sm sm:max-w-[425px] rounded-lg">
+                            <DialogHeader>
+                                <DialogTitle>Edit Profile</DialogTitle>
+                                <DialogDescription>-----</DialogDescription>
+                            </DialogHeader>
+                            <div className="grid w-full max-w-sm items-center gap-1.5">
+                                <Label htmlFor="password">Username</Label>
+                                <Input
+                                    type="text"
+                                    id="username"
+                                    placeholder="username"
+                                    leftAddon={<i className="bx bx-user"></i>}
+                                />
+                            </div>
+                            <div className="grid w-full max-w-sm items-center gap-1.5">
+                                <Label htmlFor="password">Lainnya</Label>
+                                <Input
+                                    type="number"
+                                    id="number"
+                                    placeholder="nomor whatsapp"
+                                    leftAddon={
+                                        <i className="bx bxl-whatsapp"></i>
+                                    }
+                                />
+                                <Input
+                                    type="email"
+                                    id="email"
+                                    placeholder="email"
+                                    leftAddon={
+                                        <i className="bx bx-envelope"></i>
+                                    }
+                                />
+                            </div>
+                            <DialogFooter>
+                                <Button type="submit" variant={"primary"}>
+                                    Simpan
+                                </Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
                 </span>
 
                 <span className="grid gap-2">
                     <h1>Setting</h1>
-                    <div className="shadow rounded-lg grid">
+                    <div className="shadow rounded-lg grid border">
                         <div className="flex items-center justify-between p-2">
                             <span className="flex gap-2 items-center">
                                 <div className="p-3 flex items-center justify-center rounded-lg border bg-gray-200 text-[#368CB6]">
@@ -80,13 +139,13 @@ export default function Edit({
                                             <i className="bx bx-key font-extrabold"></i>
                                         </div>
                                         <h1 className="font-semibold">
-                                            Ubah Password
+                                            Edit Password
                                         </h1>
                                     </span>
                                     <p className="bx bx-chevron-right"></p>
                                 </button>
                             </DialogTrigger>
-                            <DialogContent className="max-w-sm sm:max-w-[425px]">
+                            <DialogContent className="max-w-sm sm:max-w-[425px] rounded-lg">
                                 <DialogHeader>
                                     <DialogTitle>Edit Password</DialogTitle>
                                     <DialogDescription>
@@ -102,6 +161,9 @@ export default function Edit({
                                         type="password"
                                         id="password"
                                         placeholder="password lama"
+                                        leftAddon={
+                                            <i className="bx bx-key"></i>
+                                        }
                                     />
                                 </div>
                                 <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -112,31 +174,44 @@ export default function Edit({
                                         type="password"
                                         id="newPassword"
                                         placeholder="password baru"
+                                        leftAddon={
+                                            <i className="bx bx-key"></i>
+                                        }
                                     />
                                     <Input
                                         type="password"
                                         id="confirmPassword"
                                         placeholder="konfirmasi password baru"
+                                        leftAddon={
+                                            <i className="bx bx-key"></i>
+                                        }
                                     />
                                 </div>
                                 <DialogFooter>
-                                    <Button type="submit">Simpan</Button>
+                                    <Button type="submit" variant={"primary"}>
+                                        Simpan
+                                    </Button>
                                 </DialogFooter>
                             </DialogContent>
                         </Dialog>
-                        <Link
-                            href={route("logout")}
-                            method="post"
-                            as="button"
-                            className="flex items-center justify-between p-2 text-red-500"
-                        >
-                            <span className="flex gap-2 items-center">
-                                <div className="p-3 flex items-center justify-center rounded-lg border bg-red-100 ">
-                                    <i className="bx bx-log-out rotate-180 font-extrabold"></i>
-                                </div>
-                                <h1 className="font-semibold">Logout</h1>
-                            </span>
-                        </Link>
+
+                        <Modal
+                            title="Logout"
+                            description="Apakah anda yakin ingin keluar dari aplikasi?"
+                            action="Logout"
+                            trigger={
+                                <button className="flex items-center justify-between p-2 text-red-500 border-t border-b">
+                                    <span className="flex gap-2 items-center">
+                                        <div className="p-3 flex items-center justify-center rounded-lg border bg-red-100 ">
+                                            <i className="bx bx-log-out rotate-180 font-extrabold"></i>
+                                        </div>
+                                        <h1 className="font-semibold">
+                                            Logout
+                                        </h1>
+                                    </span>
+                                </button>
+                            }
+                        />
                     </div>
                 </span>
 

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ledger;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -15,13 +17,35 @@ class DashboardController extends Controller
     {
         $query = Ledger::query();
 
-        $currentMonthStart = \Carbon\Carbon::now()->startOfMonth();
-        $currentMonthEnd = \Carbon\Carbon::now()->endOfMonth();
+        $currentMonthStart = Carbon::now()->startOfMonth();
+        $currentMonthEnd = Carbon::now()->endOfMonth();
     
-        $query->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd]);
+        $ledgers = Ledger::query()->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd]);
+
+        $kas = $query->where('status', 'IN')
+                     ->whereLike('transaction_purpose', '%kas%')
+                     ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
+                     ->sum('amount');
+
+        $currentSaldo = $query->where('status', 'IN')
+                     ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
+                     ->sum('amount') - $query->where('status', 'OUT')
+                     ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
+                     ->sum('amount');
+
+        $peopleRemaining = User::whereDoesntHave('ledgers', function($query) use ($currentMonthStart, $currentMonthEnd) {
+        $query->where('transaction_purpose', 'like', '%kas%')
+                ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd]);
+        })->count();
+
+        $users = User::all();
 
         return Inertia::render('Dashboard', [
-            'ledgers' => $query->limit(5)->get(),
+            'users' => $users,
+            'currentSaldo' => $currentSaldo,
+            'peopleRemaining' => $peopleRemaining,
+            'kas' => $kas,  
+            'ledgers' => $ledgers->limit(5)->get(),
         ]);
     }
 

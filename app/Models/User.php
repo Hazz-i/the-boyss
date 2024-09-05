@@ -45,9 +45,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function ledger()
+    public function ledgers()
     {
-        return $this->hasMany(Ledger::class, 'user_id', 'id');
+    return $this->hasMany(Ledger::class, 'user_id', 'id');
     }
 
     public function talangan()

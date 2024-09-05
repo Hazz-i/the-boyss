@@ -61,7 +61,7 @@ export function InputForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit">Ubah</Button>
+                <Button variant={"primary"}>Ubah</Button>
             </form>
         </Form>
     );

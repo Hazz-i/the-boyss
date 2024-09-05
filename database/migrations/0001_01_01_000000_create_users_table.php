@@ -17,10 +17,11 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('whatsapp')->unique();
             $table->enum('role', ['Developer', 'Anggota', 'Bendahara'])->default("Anggota");
-            $table->string('image')->default('default.png');
+            $table->string('image')->nullable();
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('galon')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
