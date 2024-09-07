@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('username')->unique();
-            $table->string('whatsapp')->unique();
+            $table->string('username')->unique()->nullable();
+            $table->string('whatsapp')->unique() ->nullable();
             $table->enum('role', ['Developer', 'Anggota', 'Bendahara'])->default("Anggota");
             $table->string('image')->nullable();
             $table->string('email')->unique()->nullable();

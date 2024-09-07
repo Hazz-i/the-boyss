@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DefaultKas;
 use App\Models\Ledger;
+use App\Models\Talangan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
@@ -48,7 +48,8 @@ class TransactionController extends Controller
 
         Ledger::create($validatedData);
 
-        return to_route('transaksi.index')->with('success', __('data berhasil ditambahkan'));
+        // return to_route('transaksi.index')->with('success', __('data berhasil ditambahkan'));
+        return back()->with('success', 'data berhasil ditambahkan');
     }
 
     /**

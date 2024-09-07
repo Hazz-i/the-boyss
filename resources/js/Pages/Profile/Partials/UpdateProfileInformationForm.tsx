@@ -1,105 +1,148 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Link, useForm, usePage } from '@inertiajs/react';
-import { Transition } from '@headlessui/react';
-import { FormEventHandler } from 'react';
-import { PageProps } from '@/types';
+import React, { FormEventHandler } from "react";
+import { Button } from "@/Components/ui/button";
+import { Input } from "@/Components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useForm, usePage } from "@inertiajs/react";
+import { toast } from "@/hooks/use-toast";
+import MainModal from "@/Components/elements/MainModal";
+import { DialogClose } from "@radix-ui/react-dialog";
+import SubModal from "@/Components/elements/SubModal";
+import { PageProps } from "@/types";
 
-export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }: { mustVerifyEmail: boolean, status?: string, className?: string }) {
+const UpdateUserForm = ({ isOpen, setIsOpen }: any) => {
     const user = usePage<PageProps>().props.auth.user;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
-        name: user.name,
-        email: user.email,
+    const [isFormValid, setIsFormValid] = React.useState<boolean>(false);
+
+    const { data, setData, put, processing, reset } = useForm({
+        username: "",
+        whatsapp: "",
+        email: "",
+        _method: "PUT",
     });
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
+    const validateForm = () => {
+        if (data.username && data.whatsapp && data.email) {
+            setIsFormValid(true);
+        } else {
+            setIsFormValid(false);
+        }
+    };
 
-        patch(route('profile.update'));
+    const handleSubmit: FormEventHandler = () => {
+        put(route("profile.update", user.id), {
+            onSuccess: () => {
+                reset();
+                setIsFormValid(false);
+                setIsOpen(false);
+                toast({
+                    variant: "primary",
+                    title: "Berhasil",
+                    description: "Profile Berhasil di perbaharui.",
+                });
+            },
+            onError: () => {
+                toast({
+                    title: "Gagal",
+                    description: "Profile user gagal di diperbaharui.",
+                });
+            },
+        });
     };
 
     return (
-        <section className={className}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
-
-                <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
-                </p>
-            </header>
-
-            <form onSubmit={submit} className="mt-6 space-y-6">
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
-                    <TextInput
-                        id="name"
-                        className="mt-1 block w-full"
-                        value={data.name}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                        isFocused
-                        autoComplete="name"
-                    />
-
-                    <InputError className="mt-2" message={errors.name} />
-                </div>
-
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        className="mt-1 block w-full"
-                        value={data.email}
-                        onChange={(e) => setData('email', e.target.value)}
-                        required
-                        autoComplete="username"
-                    />
-
-                    <InputError className="mt-2" message={errors.email} />
-                </div>
-
-                {mustVerifyEmail && user.email_verified_at === null && (
-                    <div>
-                        <p className="text-sm mt-2 text-gray-800">
-                            Your email address is unverified.
-                            <Link
-                                href={route('verification.send')}
-                                method="post"
-                                as="button"
-                                className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                                Click here to re-send the verification email.
-                            </Link>
-                        </p>
-
-                        {status === 'verification-link-sent' && (
-                            <div className="mt-2 font-medium text-sm text-green-600">
-                                A new verification link has been sent to your email address.
-                            </div>
-                        )}
+        <SubModal
+            title="Update Profile"
+            description="Lengkapi isi data dulu klo mau update."
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            content={
+                <span className="grid gap-2">
+                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                        <Label htmlFor="password">Username</Label>
+                        <Input
+                            type="text"
+                            id="name"
+                            value={data.username}
+                            placeholder="username mu"
+                            onChange={(e) => {
+                                setData("username", e.target.value);
+                                validateForm();
+                            }}
+                            leftAddon={<i className="bx bx-user"></i>}
+                        />
                     </div>
-                )}
-
-                <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
-
-                    <Transition
-                        show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
-                        leaveTo="opacity-0"
-                    >
-                        <p className="text-sm text-gray-600">Saved.</p>
-                    </Transition>
-                </div>
-            </form>
-        </section>
+                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                        <Label htmlFor="price">Lainya</Label>
+                        <Input
+                            type="number"
+                            value={data.whatsapp}
+                            id="price"
+                            placeholder="nomor whatsapp"
+                            onChange={(e) => {
+                                setData("whatsapp", e.target.value);
+                                validateForm();
+                            }}
+                            leftAddon={<i className="bx bxl-whatsapp"></i>}
+                        />
+                        <Input
+                            type="text"
+                            id="number"
+                            value={data.email}
+                            onChange={(e) => {
+                                setData("email", e.target.value);
+                                validateForm();
+                            }}
+                            placeholder="email"
+                            leftAddon={<i className="bx bx-envelope"></i>}
+                        />
+                    </div>
+                </span>
+            }
+            footer={
+                <span className="w-full flex gap-2 items-center justify-center">
+                    <DialogClose asChild>
+                        <MainModal
+                            title="Konfirmasi"
+                            description="Apakah anda yakin untuk mengirim data ini?"
+                            trigger={
+                                <Button
+                                    variant={"primary"}
+                                    disabled={processing || !isFormValid}
+                                    className="w-full"
+                                >
+                                    Update
+                                </Button>
+                            }
+                            content={
+                                <span className="py-2 border rounded-md bg-gray-300 shadow-inner">
+                                    <i className="w-3/4 bx bx-ghost text-7xl animate-walk text-white/80"></i>
+                                </span>
+                            }
+                            footer={
+                                <span className="w-full flex gap-2 items-center justify-center">
+                                    <DialogClose asChild>
+                                        <Button variant={"outline"}>
+                                            Batal
+                                        </Button>
+                                    </DialogClose>
+                                    <DialogClose asChild>
+                                        <Button
+                                            type="submit"
+                                            variant={"primary"}
+                                            onClick={handleSubmit}
+                                        >
+                                            Konfirmasi
+                                        </Button>
+                                    </DialogClose>
+                                </span>
+                            }
+                        />
+                    </DialogClose>
+                </span>
+            }
+        />
     );
-}
+};
+
+export default UpdateUserForm;

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Galon;
 use App\Models\Ledger;
+use App\Models\Talangan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,23 +17,22 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $query = Ledger::query();
+        $query = Ledger::with('user');
 
         $currentMonthStart = Carbon::now()->startOfMonth();
         $currentMonthEnd = Carbon::now()->endOfMonth();
     
-        $ledgers = Ledger::query()->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd]);
+        $galonDriver = Galon::get();
 
         $kas = $query->where('status', 'IN')
-                     ->whereLike('transaction_purpose', '%kas%')
-                     ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
-                     ->sum('amount');
+            ->whereLike('transaction_purpose', '%kas%')
+            ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
+            ->sum('amount');
 
-        $currentSaldo = $query->where('status', 'IN')
-                     ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
-                     ->sum('amount') - $query->where('status', 'OUT')
-                     ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
-                     ->sum('amount');
+        $talangan = Talangan::query()->sum('amount');
+        $talanganReverse = Talangan::where('dikembalikan', true)->sum('amount');
+
+        $currentTalangan = $talangan - $talanganReverse;
 
         $peopleRemaining = User::whereDoesntHave('ledgers', function($query) use ($currentMonthStart, $currentMonthEnd) {
         $query->where('transaction_purpose', 'like', '%kas%')
@@ -41,11 +42,11 @@ class DashboardController extends Controller
         $users = User::all();
 
         return Inertia::render('Dashboard', [
+            'galonDrivers' => $galonDriver,
             'users' => $users,
-            'currentSaldo' => $currentSaldo,
             'peopleRemaining' => $peopleRemaining,
             'kas' => $kas,  
-            'ledgers' => $ledgers->limit(5)->get(),
+            'talangan' => $currentTalangan,
         ]);
     }
 

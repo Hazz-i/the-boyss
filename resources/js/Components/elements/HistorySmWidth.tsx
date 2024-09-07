@@ -4,35 +4,82 @@ import PaginationItems from "./PaginationItems";
 type HistorySmWidthProps = {
     items: any;
     links?: any;
+    even?: string;
+    odd?: string;
 };
 
-const HistorySmWidth = ({ items, links }: HistorySmWidthProps) => {
+const HistorySmWidth = ({
+    items,
+    links,
+    even = "",
+    odd = "bg-gray-200",
+}: HistorySmWidthProps) => {
     return (
         <div className="grid grid-cols-1 rounded-lg shadow-md border">
             {items.map((item: any, index: number) => (
                 <span
                     key={index}
-                    className={`flex items-center justify-between p-2 ${
-                        (index + 1) % 2 === 0 ? "" : "bg-gray-200"
+                    className={`flex items-center justify-between rounded-lg p-2 ${
+                        (index + 1) % 2 === 0 ? even : odd
                     }`}
                 >
                     <span className="flex gap-2 items-center">
                         <div className="p-3 flex items-center justify-center rounded-lg border bg-gray-100 text-[#368CB6]">
-                            <i
-                                className={`bx ${
-                                    item.transaction_purpose.includes("Listrik")
-                                        ? "bx-power-off"
-                                        : item.transaction_purpose.includes(
-                                              "Kas"
-                                          )
-                                        ? "bx-wallet"
-                                        : "bx-water"
-                                } font-extrabold`}
-                            ></i>
+                            {item.transaction_purpose ? (
+                                <i
+                                    className={`bx ${
+                                        item.transaction_purpose
+                                            .toLowerCase()
+                                            .includes("listrik")
+                                            ? "bx-power-off"
+                                            : item.transaction_purpose
+                                                  .toLowerCase()
+                                                  .includes("kas")
+                                            ? "bx-wallet"
+                                            : item.transaction_purpose
+                                                  .toLowerCase()
+                                                  .includes("air") ||
+                                              item.transaction_purpose
+                                                  .toLowerCase()
+                                                  .includes("pdam") ||
+                                              item.transaction_purpose
+                                                  .toLowerCase()
+                                                  .includes("pam")
+                                            ? "bx-water"
+                                            : "bx-dots-horizontal-rounded"
+                                    } font-extrabold`}
+                                ></i>
+                            ) : (
+                                <i
+                                    className={`bx ${
+                                        item.tujuan
+                                            .toLowerCase()
+                                            .includes("listrik")
+                                            ? "bx-power-off"
+                                            : item.tujuan
+                                                  .toLowerCase()
+                                                  .includes("kas")
+                                            ? "bx-wallet"
+                                            : item.tujuan
+                                                  .toLowerCase()
+                                                  .includes("air") ||
+                                              item.tujuan
+                                                  .toLowerCase()
+                                                  .includes("pdam") ||
+                                              item.tujuan
+                                                  .toLowerCase()
+                                                  .includes("pam")
+                                            ? "bx-water"
+                                            : "bx-dots-horizontal-rounded"
+                                    } font-extrabold`}
+                                ></i>
+                            )}
                         </div>
                         <div className="grid">
                             <h1 className="font-semibold text-lg">
-                                {item.transaction_purpose}
+                                {item.transaction_purpose
+                                    ? item.transaction_purpose
+                                    : item.tujuan}
                             </h1>
                             <small>{formatDate(item.created_at)}</small>
                         </div>
@@ -47,7 +94,9 @@ const HistorySmWidth = ({ items, links }: HistorySmWidthProps) => {
                                 + {formatAmount(item.amount)}
                             </p>
                         )}
-                        <small className="font-semibold">{item.user_id}</small>
+                        <small className="font-semibold">
+                            {item.user.username}
+                        </small>
                     </div>
                 </span>
             ))}

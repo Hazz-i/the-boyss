@@ -2,35 +2,23 @@ import React, { FormEventHandler } from "react";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { toast } from "@/hooks/use-toast";
 import { DialogClose } from "@radix-ui/react-dialog";
 import MainModal from "@/Components/elements/MainModal";
-import { Textarea } from "@/Components/ui/textarea";
+import { formatAmount } from "@/formater";
 
-type TalanganFormProps = {
-    auth?: any;
-    user?: any;
-};
-
-const TalanganForm = ({ auth, user }: TalanganFormProps) => {
-    const currentUser = user || auth?.user;
+const DefaultKasForm = () => {
     const [isFormValid, setIsFormValid] = React.useState<boolean>(false);
+    const { defaultKas }: any = usePage().props;
 
-    if (!currentUser) {
-        return <p>User data is missing</p>;
-    }
-
-    const { data, setData, post, processing, reset } = useForm({
-        user_id: currentUser.id,
-        tujuan: "",
-        amount: 0,
-        bukti: null,
-        dikembalikan: false,
+    const { data, setData, processing, reset, put } = useForm({
+        default_kas: 0,
+        _method: "PUT",
     });
 
     const validateForm = () => {
-        if (data.tujuan && data.amount) {
+        if (data.default_kas) {
             setIsFormValid(true);
         } else {
             setIsFormValid(false);
@@ -38,66 +26,52 @@ const TalanganForm = ({ auth, user }: TalanganFormProps) => {
     };
 
     const handleSubmit: FormEventHandler = () => {
-        if (data.bukti === "") {
-            setData("bukti", null);
-        }
-
-        post(route("talangan.store"), {
+        put(route("default-kas.update", defaultKas.id), {
             onSuccess: () => {
                 reset();
                 setIsFormValid(false);
                 toast({
                     title: "Berhasil",
                     variant: "primary",
-                    description: "Data Berhasil di tambahkan.",
+                    description: "Default Kas berhasil diupdate.",
                 });
             },
             onError: () => {
                 toast({
                     title: "Gagal",
                     variant: "destructive",
-                    description: "Data gagal di tambahkan.",
+                    description: "Default Kas gagal diupdate.",
                 });
             },
         });
     };
 
     return (
-        <div className="grid gap-3">
+        <div className="grid gap-3 shadow rounded-lg py-3 px-5 bg-white dark:bg-black">
             <span className="space-y-3">
                 <div className="space-y-1">
-                    <Label htmlFor="amount">Nominal</Label>
+                    <span className="flex items-center gap-1">
+                        <Label htmlFor="defaultKas">Default</Label> -
+                        <small className="text-green-500">
+                            ({formatAmount(defaultKas.default_kas)})
+                        </small>
+                    </span>
                     <Input
-                        id="amount"
+                        id="defaultKas"
                         leftAddon={<i>Rp</i>}
                         placeholder="12000"
-                        value={data.amount === 0 ? "" : data.amount}
+                        value={data.default_kas === 0 ? "" : data.default_kas}
                         onChange={(e) => {
-                            setData("amount", parseFloat(e.target.value)),
+                            setData("default_kas", parseFloat(e.target.value)),
                                 validateForm();
                         }}
                     />
-                </div>
-                <div className="space-y-1">
-                    <Label htmlFor="amount">Keterangan</Label>
-
-                    <Textarea
-                        placeholder="tuliskan tujuan talangan"
-                        value={data.tujuan}
-                        onChange={(e) => {
-                            setData("tujuan", e.target.value), validateForm();
-                        }}
-                    />
-                </div>
-                <div className="space-y-0">
-                    <Label htmlFor="picture">Bukti</Label>
-                    <Input id="picture" type="file" />
                 </div>
             </span>
             <span>
                 <MainModal
                     title="Konfirmasi"
-                    description="Apakah anda yakin untuk mengirim data ini?"
+                    description="Apakah anda yakin untuk mengubah default kas?"
                     trigger={
                         <Button
                             variant={"primary"}
@@ -133,4 +107,4 @@ const TalanganForm = ({ auth, user }: TalanganFormProps) => {
     );
 };
 
-export default TalanganForm;
+export default DefaultKasForm;

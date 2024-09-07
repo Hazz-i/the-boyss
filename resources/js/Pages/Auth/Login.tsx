@@ -15,7 +15,7 @@ export default function Login({
     canResetPassword: boolean;
 }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
+        username: "",
         password: "",
         remember: false,
     });
@@ -41,18 +41,23 @@ export default function Login({
             <form onSubmit={submit} className="py-10">
                 <span className="grid gap-5">
                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="email">Alamat Email</Label>
+                        <Label htmlFor="username">Alamat Email</Label>
                         <Input
-                            id="email"
-                            type="email"
-                            name="email"
-                            value={data.email}
+                            id="username"
+                            type="text"
+                            name="username"
+                            value={data.username}
                             autoComplete="username"
                             leftAddon={<i className="bx bx-mail-send"></i>}
-                            onChange={(e) => setData("email", e.target.value)}
-                            placeholder="Masukan alamat email"
+                            onChange={(e) =>
+                                setData("username", e.target.value)
+                            }
+                            placeholder="Masukan alamat usernmae"
                         />
-                        <InputError message={errors.email} className="mt-2" />
+                        <InputError
+                            message={errors.username}
+                            className="mt-2"
+                        />
                     </div>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
                         <Label htmlFor="password">Sandi</Label>
@@ -80,7 +85,7 @@ export default function Login({
                         <Checkbox
                             id="remember"
                             name="remember"
-                            // checked={data.remember ? true : false}
+                            checked={data.remember ? true : false}
                             onChange={(e) =>
                                 setData(
                                     "remember",

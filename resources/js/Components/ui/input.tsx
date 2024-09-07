@@ -4,12 +4,18 @@ import { cn } from "@/lib/utils";
 export interface InputProps
     extends React.InputHTMLAttributes<HTMLInputElement> {
     leftAddon?: React.ReactElement;
+    width?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-    ({ className, leftAddon, type, ...props }, ref) => {
+    ({ className, width, leftAddon, type, ...props }, ref) => {
         return (
-            <div className="flex h-9 focus-within:ring-1 focus-within:ring-blue rounded-md border border-input focus-visible:outline-none focus-visible:ring-0 overflow-hidden shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50">
+            <div
+                className={
+                    "flex h-9 focus-within:ring-1 focus-within:ring-blue rounded-md border border-input focus-visible:outline-none focus-visible:ring-0 overflow-hidden shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 " +
+                    width
+                }
+            >
                 {leftAddon && (
                     <div className="flex items-center px-3 py-1 text-sm text-muted-foreground bg-input">
                         {leftAddon}

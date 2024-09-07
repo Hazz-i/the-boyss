@@ -10,7 +10,7 @@ import { toast } from "@/hooks/use-toast";
 
 const OutcomeCreate = ({ auth }: any) => {
     const [isFormValid, setIsFormValid] = React.useState<boolean>(false);
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, reset } = useForm({
         user_id: auth.user.id,
         transaction_purpose: "",
         amount: 0,
@@ -37,12 +37,14 @@ const OutcomeCreate = ({ auth }: any) => {
                 setIsFormValid(false);
                 toast({
                     title: "Berhasil",
+                    variant: "primary",
                     description: "Data Berhasil di tambahkan.",
                 });
             },
             onError: () => {
                 toast({
                     title: "Gagal",
+                    variant: "destructive",
                     description: "Data gagal di tambahkan.",
                 });
             },

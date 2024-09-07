@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Galon extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'price',
+        'number',
+        'status',
+    ];  
 }

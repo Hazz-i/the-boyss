@@ -21,7 +21,8 @@ export function Modal({
     trigger: React.ReactElement;
     title: string;
     description: string;
-    action: string;
+    // action: string;.
+    action: React.ReactElement;
 }) {
     return (
         <AlertDialog>
@@ -33,17 +34,7 @@ export function Modal({
                         {description}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel className="bg-[#5CA4C5] text-white">
-                        Batal
-                    </AlertDialogCancel>
-
-                    <Link href={route("logout")} method="post">
-                        <AlertDialogAction className="border border-red-500 bg-transparent text-red-500 w-full">
-                            {action}
-                        </AlertDialogAction>
-                    </Link>
-                </AlertDialogFooter>
+                <AlertDialogFooter>{action}</AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
     );

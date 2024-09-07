@@ -1,5 +1,6 @@
 export interface User {
     id: number;
+    username: string;
     name: string;
     email: string;
     role: string;
@@ -15,10 +16,4 @@ export type PageProps<
     auth: {
         user: User;
     };
-    ledgers: any;
-    kas: number;
-    peopleRemaining: number;
-    currentSaldo: number;
-    users: any;
-    defaulKas: number;
 };

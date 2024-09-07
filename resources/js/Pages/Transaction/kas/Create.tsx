@@ -1,5 +1,4 @@
 import React, { FormEventHandler } from "react";
-import { CardContent, CardFooter } from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,12 +43,14 @@ const KasForm = ({ auth, user }: KasFormProps) => {
                 reset();
                 toast({
                     title: "Berhasil",
+                    variant: "primary",
                     description: "Data Berhasil di tambahkan.",
                 });
             },
             onError: () => {
                 toast({
                     title: "Gagal",
+                    variant: "destructive",
                     description: "Data gagal di tambahkan.",
                 });
             },

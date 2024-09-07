@@ -9,8 +9,11 @@ class DefaultKas extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'default_kas',
+    ];
+
     protected $hidden = [
-        'id',
         'created_at',
         'updated_at',
     ];

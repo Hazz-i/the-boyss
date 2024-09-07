@@ -38,6 +38,13 @@ import {
     CardTitle,
 } from "@/Components/ui/card";
 import KasForm from "@/Pages/Transaction/kas/Create";
+import TalanganForm from "@/Pages/Transaction/talangan/Create";
+import {
+    AlertDialogAction,
+    AlertDialogCancel,
+} from "@/Components/ui/alert-dialog";
+import MainModal from "@/Components/elements/MainModal";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 export default function Authenticated({
     user,
@@ -47,8 +54,6 @@ export default function Authenticated({
     user: User;
     header?: ReactNode;
 }>) {
-    const [position, setPosition] = React.useState("bottom");
-
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
             {header && (
@@ -73,25 +78,50 @@ export default function Authenticated({
                             <DropdownMenuSeparator />
                             <Link
                                 href={route("profile.edit")}
-                                className="flex gap-2 items-center justify-start ps-5 py-1"
+                                className="flex gap-2 items-center justify-start ps-5 py-2"
                             >
                                 <i className="bx bx-user-circle"></i>Profile
                             </Link>
                             <Link
                                 href={route("notification.index")}
-                                className="flex gap-2 items-center justify-start ps-5 py-1"
+                                className="flex gap-2 items-center justify-start ps-5 py-2"
                             >
                                 <i className="bx bx-bell"></i>Notification
                             </Link>
-                            <Modal
+
+                            <MainModal
                                 title="Logout"
-                                description="Apakah anda yakin ingin keluar dari aplikasi?"
-                                action="Logout"
+                                description="Apakah anda yakin untuk keluar dari aplikasi?"
                                 trigger={
-                                    <button className="flex gap-2 items-center justify-start ps-5 py-1 text-red-500">
+                                    <button className="flex gap-2 items-center justify-start ps-5 py-2 text-red-500">
                                         <i className="bx bx-log-out rotate-180"></i>
                                         Logout
                                     </button>
+                                }
+                                content={
+                                    <span className="py-2 border rounded-md bg-gray-300 shadow-inner">
+                                        <i className="w-3/4 bx bx-ghost text-7xl animate-walk text-white/80"></i>
+                                    </span>
+                                }
+                                footer={
+                                    <span className="grid grid-cols-2 gap-2 items-center justify-center">
+                                        <DialogClose asChild>
+                                            <Button variant={"outline"}>
+                                                Batal
+                                            </Button>
+                                        </DialogClose>
+                                        <DialogClose asChild>
+                                            <span className="h-9 px-4 flex justify-center items-center border bg-red-500 bg-transparent text-white rounded-lg text-center">
+                                                <Link
+                                                    href={route("logout")}
+                                                    method="post"
+                                                    as="button"
+                                                >
+                                                    Logout
+                                                </Link>
+                                            </span>
+                                        </DialogClose>
+                                    </span>
                                 }
                             />
                         </DropdownMenuContent>
@@ -144,24 +174,7 @@ export default function Authenticated({
                                 value="talangan"
                                 className="grid gap-2"
                             >
-                                <div className="space-y-1">
-                                    <Label htmlFor="name">Nomimal</Label>
-                                    <Input
-                                        type="number"
-                                        id="name"
-                                        placeholder="12000"
-                                        leftAddon={<i>Rp</i>}
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <Label htmlFor="name">Keterangan</Label>
-                                    <Textarea placeholder="Tulis keterangan disini" />
-                                </div>
-                                <div className="grid w-full max-w-sm items-center gap-1.5">
-                                    <Label htmlFor="picture">Bukti</Label>
-                                    <Input id="picture" type="file" />
-                                </div>
-                                <Button variant="primary">Kirim</Button>
+                                <TalanganForm user={user} />
                             </TabsContent>
                         </Tabs>
                     </DialogContent>

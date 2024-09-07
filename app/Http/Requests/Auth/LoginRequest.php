@@ -27,7 +27,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'username' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
@@ -39,18 +39,20 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): void
     {
-        $this->ensureIsNotRateLimited();
-
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        // $this->ensureIsNotRateLimited();
+    
+        // Coba autentikasi dengan 'username' dan 'password'
+        if (! Auth::attempt($this->only('username', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
-
+    
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'username' => trans('auth.failed'),
             ]);
         }
-
+    
         RateLimiter::clear($this->throttleKey());
     }
+    
 
     /**
      * Ensure the login request is not rate limited.

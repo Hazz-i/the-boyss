@@ -9,20 +9,27 @@ import {
     CarouselPrevious,
 } from "@/Components/ui/carousel";
 import { formatAmount, formatDate, months } from "@/formater";
+import { usePage } from "@inertiajs/react";
 
 type CarauselProps = {
     kas: number;
     peopleRemaining: number;
     currentSaldo: number;
-    defautlKas: number;
+    talangan: any;
 };
 
 export function CarauselHome({
     kas,
     peopleRemaining,
     currentSaldo,
-    defautlKas,
+    talangan,
 }: CarauselProps): JSX.Element {
+    const { defaultKas, talangans }: any = usePage().props;
+
+    const talanganFiltered = talangans.filter((talangan: any) => {
+        return talangan.dikembalikan == 0;
+    });
+
     const CarauselCards = [
         {
             icon: "bx-dollar",
@@ -45,13 +52,17 @@ export function CarauselHome({
                     ? "semua sudah bayar kas"
                     : `${peopleRemaining} orang belum bayar kas`
             }`,
-            kas: `${defautlKas ? formatAmount(defautlKas) : ""}`,
+            kas: `${defaultKas ? formatAmount(defaultKas.default_kas) : ""}`,
         },
         {
             icon: "bxl-slack",
             title: "Talangan",
-            saldo: "Rp. 1.000.000",
-            describe: "talangan yang belum diambil",
+            saldo: `${formatAmount(talangan)}`,
+            describe: `${
+                talanganFiltered.length > 0
+                    ? `${talanganFiltered.length} Talangan belm di kembalikan`
+                    : "Semua talangan sudah di kembalikan"
+            }`,
         },
     ];
 
@@ -99,7 +110,7 @@ export function CarauselHome({
                                             </h1>
                                             {card.kas && (
                                                 <small className="text-green-300 pt-2">
-                                                    Rp. {card.kas}
+                                                    {card.kas}
                                                 </small>
                                             )}
                                         </span>

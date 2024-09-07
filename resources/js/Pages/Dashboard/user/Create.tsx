@@ -1,120 +1,106 @@
-import React, { useRef, FormEventHandler } from "react";
-import { useForm } from "@inertiajs/react";
-import MainModal from "@/Components/elements/MainModal";
+import React, { FormEventHandler } from "react";
 import { Button } from "@/Components/ui/button";
-import SubModal from "@/Components/elements/SubModal";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/Components/ui/input";
-import { DialogClose } from "@/Components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { useForm } from "@inertiajs/react";
 import { toast } from "@/hooks/use-toast";
+import MainModal from "@/Components/elements/MainModal";
+import { DialogClose } from "@radix-ui/react-dialog";
+import SubModal from "@/Components/elements/SubModal";
 
-export default function UpdatePasswordForm({
-    isOpen,
-    setIsOpen,
-}: {
-    isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
-}) {
-    const passwordInput = useRef<HTMLInputElement>(null);
-    const currentPasswordInput = useRef<HTMLInputElement>(null);
+const UserForm = ({ isOpen, setIsOpen }: any) => {
     const [isFormValid, setIsFormValid] = React.useState<boolean>(false);
-
-    const {
-        data,
-        setData,
-        errors,
-        put,
-        reset,
-        processing,
-        recentlySuccessful,
-    } = useForm({
-        current_password: "",
+    const { data, setData, post, processing, reset } = useForm({
+        name: "",
+        username: "",
         password: "",
         password_confirmation: "",
     });
 
     const validateForm = () => {
-        if (
-            data.current_password &&
-            data.password &&
-            data.password_confirmation
-        ) {
+        if (data.name && data.password && data.password_confirmation) {
             setIsFormValid(true);
         } else {
             setIsFormValid(false);
         }
     };
 
-    const handleSubmit: FormEventHandler = (e) => {
-        e.preventDefault();
-
-        put(route("password.update"), {
-            preserveScroll: true,
-            onSuccess: () => {
+    const handleSubmit: FormEventHandler = async () => {
+        post(route("user.store"), {
+            onSuccess: (response) => {
                 reset();
                 setIsFormValid(false);
                 setIsOpen(false);
+
+                const statusMessage =
+                    response.props?.status || "User berhasil ditambahkan.";
                 toast({
-                    variant: "primary",
                     title: "Berhasil",
-                    description: "Password udah di perbaharui brok!.",
+                    variant: "primary",
+                    description: `${statusMessage}`,
                 });
             },
-            onError: (errors) => {
-                if (errors.password) {
-                    reset("password", "password_confirmation");
-                    passwordInput.current?.focus();
-                }
-
-                if (errors.current_password) {
-                    reset("current_password");
-                    currentPasswordInput.current?.focus();
-                }
+            onError: () => {
+                setIsOpen(false);
+                toast({
+                    title: "Gagal",
+                    variant: "destructive",
+                    description: "User gagal ditambahkan.",
+                });
             },
         });
     };
 
     return (
         <SubModal
-            title="Update Password"
-            description="Klo mau update password, isi data dulu."
             isOpen={isOpen}
             setIsOpen={setIsOpen}
+            title="Tambah Anggota Kontrakan"
+            description="Member baru brok!"
             content={
                 <span className="grid gap-2">
                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="password">Password saat ini</Label>
+                        <Label htmlFor="name">Nama</Label>
                         <Input
-                            type="password"
-                            id="current_password"
-                            ref={currentPasswordInput}
-                            value={data.current_password}
-                            placeholder="Password lama"
+                            type="text"
+                            value={data.name}
+                            placeholder="Nama member"
                             onChange={(e) => {
-                                setData("current_password", e.target.value);
+                                setData("name", e.target.value);
                                 validateForm();
                             }}
-                            leftAddon={<i className="bx bx-key"></i>}
+                            leftAddon={<i className="bx bx-user"></i>}
                         />
                     </div>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="price">Password</Label>
+                        <Label htmlFor="username">Username</Label>
+                        <Input
+                            type="text"
+                            value={data.username}
+                            placeholder="Username member"
+                            onChange={(e) => {
+                                setData("username", e.target.value);
+                                validateForm();
+                            }}
+                            leftAddon={<i className="bx bx-user"></i>}
+                        />
+                    </div>
+                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                        <Label htmlFor="password">Password</Label>
                         <Input
                             type="password"
-                            ref={passwordInput}
                             value={data.password}
-                            id="price"
-                            placeholder="password baru"
+                            placeholder="Password member"
                             onChange={(e) => {
                                 setData("password", e.target.value);
                                 validateForm();
                             }}
-                            leftAddon={<i className="bx bx-lock-alt"></i>}
+                            leftAddon={<i className="bx bx-key"></i>}
                         />
                         <Input
                             type="password"
-                            id="number"
                             value={data.password_confirmation}
+                            placeholder="Konfirmasi password member"
                             onChange={(e) => {
                                 setData(
                                     "password_confirmation",
@@ -122,8 +108,7 @@ export default function UpdatePasswordForm({
                                 );
                                 validateForm();
                             }}
-                            placeholder="konfirmasi password"
-                            leftAddon={<i className="bx bx-lock-alt"></i>}
+                            leftAddon={<i className="bx bx-key"></i>}
                         />
                     </div>
                 </span>
@@ -133,14 +118,14 @@ export default function UpdatePasswordForm({
                     <DialogClose asChild>
                         <MainModal
                             title="Konfirmasi"
-                            description="Apakah anda yakin untuk mengirim data ini?"
+                            description="Apakah anda yakin untuk menambahkan member ini ke kontrakan?"
                             trigger={
                                 <Button
                                     variant={"primary"}
                                     disabled={processing || !isFormValid}
                                     className="w-full"
                                 >
-                                    Update
+                                    Tanbah
                                 </Button>
                             }
                             content={
@@ -155,16 +140,13 @@ export default function UpdatePasswordForm({
                                             Batal
                                         </Button>
                                     </DialogClose>
-                                    <DialogClose asChild>
-                                        <Button
-                                            type="submit"
-                                            variant={"primary"}
-                                            onClick={handleSubmit}
-                                            disabled={processing}
-                                        >
-                                            Konfirmasi
-                                        </Button>
-                                    </DialogClose>
+                                    <Button
+                                        type="submit"
+                                        variant={"primary"}
+                                        onClick={handleSubmit}
+                                    >
+                                        Tambah
+                                    </Button>
                                 </span>
                             }
                         />
@@ -173,4 +155,6 @@ export default function UpdatePasswordForm({
             }
         />
     );
-}
+};
+
+export default UserForm;
