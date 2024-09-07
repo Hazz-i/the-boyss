@@ -1,18 +1,13 @@
-import React, { useState, PropsWithChildren, ReactNode } from "react";
-import ApplicationLogo from "@/Components/ApplicationLogo";
-import Dropdown from "@/Components/Dropdown";
+import { PropsWithChildren, ReactNode } from "react";
 import NavLink from "@/Components/NavLink";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { User } from "@/types";
 import { Button } from "@/Components/ui/button";
-import { ModeToggle } from "@/Components/mode-toogle";
 import { Avatar, AvatarImage } from "@/Components/ui/avatar";
 import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -24,25 +19,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
-import { Modal } from "@/Components/elements/Modal";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/Components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
-import { Textarea } from "@/Components/ui/textarea";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/Components/ui/card";
 import KasForm from "@/Pages/Transaction/kas/Create";
 import TalanganForm from "@/Pages/Transaction/talangan/Create";
-import {
-    AlertDialogAction,
-    AlertDialogCancel,
-} from "@/Components/ui/alert-dialog";
 import MainModal from "@/Components/elements/MainModal";
 import { DialogClose } from "@radix-ui/react-dialog";
 
