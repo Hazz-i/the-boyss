@@ -74,7 +74,7 @@ export default function Transaction({
                 </span>
 
                 {(auth.user.role.toLowerCase() === "bendahara" ||
-                    auth.user.role.toLowerCase() === "anggota") && (
+                    auth.user.role.toLowerCase() === "developer") && (
                     <>
                         <span className="grid gap-2">
                             <h1>Pengeluaran</h1>

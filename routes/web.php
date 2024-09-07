@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/role', UserRoleUpdateController::class);
     Route::put('/user/{id}', [UserController::class, 'updateWithAuth'])->name('user.updateWithAuth');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 

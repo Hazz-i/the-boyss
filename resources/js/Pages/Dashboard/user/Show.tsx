@@ -28,7 +28,7 @@ const ShowUsers = ({ users }: any) => {
                         className="flex items-center gap-2 border border-[#5CA4C5] text-[#5CA4C5] px-2 h-full rounded-md animate-pulse"
                         onClick={() => setAddUser(!addUser)}
                     >
-                        <i className="bx bx-plus "></i>
+                        <i className="bx bx-plus"></i>
                     </button>
                 )}
             </span>
@@ -41,7 +41,10 @@ const ShowUsers = ({ users }: any) => {
                         <button
                             key={index}
                             className="w-full py-2 px-3 rounded-lg border bg-gray-200"
-                            disabled={user.role.toLowerCase() === "developer"}
+                            disabled={
+                                user.role.toLowerCase() === "anggota" ||
+                                user.role.toLowerCase() === "bendahara"
+                            }
                             onClick={() => {
                                 setIsUpdate(true);
                                 setUserId(user.id);
@@ -79,7 +82,10 @@ const ShowUsers = ({ users }: any) => {
                                             user.role.toLowerCase() ===
                                             "anggota"
                                                 ? "bx-group"
-                                                : "bx-envelope "
+                                                : user.role.toLowerCase() ===
+                                                  "bendahara"
+                                                ? "bx-dollar-circle text-yellow-500"
+                                                : "bx bx-code-alt"
                                         }`}
                                     ></i>
                                     {user.role}

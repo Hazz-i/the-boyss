@@ -22,7 +22,7 @@ const UpdateUserForm = ({ isOpen, setIsOpen }: any) => {
     });
 
     const validateForm = () => {
-        if (data.username && data.whatsapp && data.email) {
+        if (data.username || data.whatsapp || data.email) {
             setIsFormValid(true);
         } else {
             setIsFormValid(false);
@@ -43,6 +43,7 @@ const UpdateUserForm = ({ isOpen, setIsOpen }: any) => {
             },
             onError: () => {
                 toast({
+                    variant: "destructive",
                     title: "Gagal",
                     description: "Profile user gagal di diperbaharui.",
                 });

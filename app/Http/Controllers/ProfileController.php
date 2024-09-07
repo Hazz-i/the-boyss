@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,15 +29,23 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request, string $id): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $validatedData = $request->validate([
+            'username' => ['nullable','string', 'max:255'],
+            'whatsapp' => ['nullable','string', 'max:255'],
+            'email' => ['nullable','string', 'lowercase', 'email', 'max:255'],
+        ]);
 
-        // if ($request->user()->isDirty('email')) {
-        //     $request->user()->email_verified_at = null;
-        // }
+        $user = User::findOrFail($id);
 
-        $request->user()->save();
+        foreach ($validatedData as $key => $value) {
+            if (!empty($value)) {
+                $user->$key = $value;
+            }
+        }
+
+        $user->save();
 
         return Redirect::route('profile.edit');
     }

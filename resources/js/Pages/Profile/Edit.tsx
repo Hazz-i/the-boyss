@@ -76,7 +76,7 @@ export default function Edit({
                                         : auth.user.role.toLocaleLowerCase() ==
                                           "bendahara"
                                         ? "bx-dollar-circle text-yellow-500"
-                                        : "bx bx-user"
+                                        : "bx bx-code-alt"
                                 }`}
                             ></i>
                         </p>
@@ -140,9 +140,7 @@ export default function Edit({
                                 </button>
                             }
                             content={
-                                <span className="py-2 border rounded-md bg-gray-300 shadow-inner">
-                                    <i className="w-3/4 bx bx-ghost text-7xl animate-walk text-white/80"></i>
-                                </span>
+                                <i className=" bx bx-door-open text-7xl  text-center animate-pulse"></i>
                             }
                             footer={
                                 <span className="grid grid-cols-2 gap-2 items-center justify-center">
@@ -152,7 +150,7 @@ export default function Edit({
                                         </Button>
                                     </DialogClose>
                                     <DialogClose asChild>
-                                        <span className="h-9 px-4 flex justify-center items-center border bg-red-500 bg-transparent text-white rounded-lg text-center">
+                                        <span className="h-9 px-4 flex justify-center items-center border bg-red-500 text-white rounded-lg text-center">
                                             <Link
                                                 href={route("logout")}
                                                 method="post"

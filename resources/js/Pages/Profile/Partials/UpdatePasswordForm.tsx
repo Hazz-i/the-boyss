@@ -60,16 +60,13 @@ export default function UpdatePasswordForm({
                     description: "Password udah di perbaharui brok!.",
                 });
             },
-            onError: (errors) => {
-                if (errors.password) {
-                    reset("password", "password_confirmation");
-                    passwordInput.current?.focus();
-                }
-
-                if (errors.current_password) {
-                    reset("current_password");
-                    currentPasswordInput.current?.focus();
-                }
+            onError: () => {
+                setIsFormValid(false);
+                toast({
+                    variant: "destructive",
+                    title: "Gagal",
+                    description: "Minimal 8 charakter brok!.",
+                });
             },
         });
     };
@@ -133,7 +130,7 @@ export default function UpdatePasswordForm({
                     <DialogClose asChild>
                         <MainModal
                             title="Konfirmasi"
-                            description="Apakah anda yakin untuk mengirim data ini?"
+                            description="Yakin Brok mo ganti password?"
                             trigger={
                                 <Button
                                     variant={"primary"}
@@ -144,27 +141,23 @@ export default function UpdatePasswordForm({
                                 </Button>
                             }
                             content={
-                                <span className="py-2 border rounded-md bg-gray-300 shadow-inner">
-                                    <i className="w-3/4 bx bx-ghost text-7xl animate-walk text-white/80"></i>
-                                </span>
+                                <i className="bx bx-question-mark text-center text-7xl animate-ping"></i>
                             }
                             footer={
-                                <span className="w-full flex gap-2 items-center justify-center">
+                                <span className="grid grid-cols-2 gap-2">
                                     <DialogClose asChild>
                                         <Button variant={"outline"}>
                                             Batal
                                         </Button>
                                     </DialogClose>
-                                    <DialogClose asChild>
-                                        <Button
-                                            type="submit"
-                                            variant={"primary"}
-                                            onClick={handleSubmit}
-                                            disabled={processing}
-                                        >
-                                            Konfirmasi
-                                        </Button>
-                                    </DialogClose>
+                                    <Button
+                                        type="submit"
+                                        variant={"primary"}
+                                        onClick={handleSubmit}
+                                        disabled={processing}
+                                    >
+                                        Konfirmasi
+                                    </Button>
                                 </span>
                             }
                         />
