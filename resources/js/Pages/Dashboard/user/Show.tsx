@@ -37,62 +37,106 @@ const ShowUsers = ({ users }: any) => {
                 {users.length === 0 ? (
                     <h1 className="font-bold">Belum ada data</h1>
                 ) : (
-                    users?.map((user: any, index: any) => (
-                        <button
-                            key={index}
-                            className="w-full py-2 px-3 rounded-lg border bg-gray-200"
-                            disabled={
-                                user.role.toLowerCase() === "anggota" ||
-                                user.role.toLowerCase() === "bendahara"
-                            }
-                            onClick={() => {
-                                setIsUpdate(true);
-                                setUserId(user.id);
-                            }}
-                        >
-                            <span className="flex items-center justify-between">
-                                <div className="flex gap-2 items-center">
-                                    <span className="px-3 py-1 border rounded-lg bg-gray-300">
-                                        <small>{index + 1}</small>
-                                    </span>
-                                    <Avatar className="w-10 h-10">
-                                        <AvatarImage
-                                            src={`${
-                                                user.image !== null
-                                                    ? user.image
-                                                    : "https://github.com/shadcn.png"
+                    <>
+                        {user.role.toLowerCase() === "developer" &&
+                            users?.map((user: any, index: any) => (
+                                <button
+                                    key={index}
+                                    className="w-full py-2 px-3 rounded-lg border bg-gray-200 flex items-center justify-between"
+                                    onClick={() => {
+                                        setIsUpdate(true);
+                                        setUserId(user.id);
+                                    }}
+                                >
+                                    <div className="flex gap-2 items-center">
+                                        <span className="px-3 py-1 border rounded-lg bg-gray-300">
+                                            <small>{index + 1}</small>
+                                        </span>
+                                        <Avatar className="w-10 h-10">
+                                            <AvatarImage
+                                                src={`${
+                                                    user.image !== null
+                                                        ? "https://github.com/shadcn.png"
+                                                        : "https://github.com/shadcn.png"
+                                                }`}
+                                                alt="@shadcn"
+                                            />
+                                        </Avatar>
+                                        <span className="grid text-start">
+                                            <h1 className="font-semibold">
+                                                {user.name}
+                                            </h1>
+                                            <small>
+                                                {user.whatsapp
+                                                    ? user.whatsapp
+                                                    : "-- blm ngisi --"}
+                                            </small>
+                                        </span>
+                                    </div>
+                                    <small className="font-bold flex items-center justify-center gap-1">
+                                        <i
+                                            className={`text-base bx ${
+                                                user.role.toLowerCase() ===
+                                                "anggota"
+                                                    ? "bx-group"
+                                                    : user.role.toLowerCase() ===
+                                                      "bendahara"
+                                                    ? "bx-dollar-circle text-yellow-500"
+                                                    : "bx bx-code-alt"
                                             }`}
-                                            alt="@shadcn"
-                                        />
-                                    </Avatar>
-                                    <span className="grid text-start">
-                                        <h1 className="font-semibold">
-                                            {user.name}
-                                        </h1>
-                                        <small>
-                                            {user.whatsapp
-                                                ? user.whatsapp
-                                                : "-- blm ngisi --"}
-                                        </small>
-                                    </span>
-                                </div>
-                                <small className="font-bold flex items-center justify-center gap-1">
-                                    <i
-                                        className={`text-base bx ${
-                                            user.role.toLowerCase() ===
-                                            "anggota"
-                                                ? "bx-group"
-                                                : user.role.toLowerCase() ===
-                                                  "bendahara"
-                                                ? "bx-dollar-circle text-yellow-500"
-                                                : "bx bx-code-alt"
-                                        }`}
-                                    ></i>
-                                    {user.role}
-                                </small>
-                            </span>
-                        </button>
-                    ))
+                                        ></i>
+                                        {user.role}
+                                    </small>
+                                </button>
+                            ))}
+                        {user.role.toLowerCase() !== "developer" &&
+                            users?.map((user: any, index: any) => (
+                                <span
+                                    key={index}
+                                    className="w-full py-2 px-3 rounded-lg border bg-gray-200 flex items-center justify-between"
+                                >
+                                    <div className="flex gap-2 items-center">
+                                        <span className="px-3 py-1 border rounded-lg bg-gray-300">
+                                            <small>{index + 1}</small>
+                                        </span>
+                                        <Avatar className="w-10 h-10">
+                                            <AvatarImage
+                                                src={`${
+                                                    user.image !== null
+                                                        ? "https://github.com/shadcn.png"
+                                                        : "https://github.com/shadcn.png"
+                                                }`}
+                                                alt="@shadcn"
+                                            />
+                                        </Avatar>
+                                        <span className="grid text-start">
+                                            <h1 className="font-semibold">
+                                                {user.name}
+                                            </h1>
+                                            <small>
+                                                {user.whatsapp
+                                                    ? user.whatsapp
+                                                    : "-- blm ngisi --"}
+                                            </small>
+                                        </span>
+                                    </div>
+                                    <small className="font-bold flex items-center justify-center gap-1">
+                                        <i
+                                            className={`text-base bx ${
+                                                user.role.toLowerCase() ===
+                                                "anggota"
+                                                    ? "bx-group"
+                                                    : user.role.toLowerCase() ===
+                                                      "bendahara"
+                                                    ? "bx-dollar-circle text-yellow-500"
+                                                    : "bx bx-code-alt"
+                                            }`}
+                                        ></i>
+                                        {user.role}
+                                    </small>
+                                </span>
+                            ))}
+                    </>
                 )}
             </span>
 

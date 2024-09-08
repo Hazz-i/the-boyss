@@ -3,10 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\DefaultKas;
-use App\Models\Information;
-use App\Models\Ledger;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create([
+            'id' => 10,
             'name' => 'Developer',
             'username' => 'developer',
             'galon' => true,   

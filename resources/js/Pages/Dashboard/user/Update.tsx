@@ -73,7 +73,7 @@ const UserUpdateForm = ({
                             <AvatarImage
                                 src={`${
                                     user.image
-                                        ? user.image
+                                        ? "https://github.com/shadcn.png"
                                         : "https://github.com/shadcn.png"
                                 }`}
                                 alt="@shadcn"

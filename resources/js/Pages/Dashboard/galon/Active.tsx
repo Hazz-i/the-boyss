@@ -5,14 +5,12 @@ import { useForm } from "@inertiajs/react";
 import { toast } from "@/hooks/use-toast";
 
 const GalonActiveForm = ({ driver }: any) => {
-    const { setData, put } = useForm({
-        status: false,
+    const { put } = useForm({
+        status: true,
         _method: "PUT",
     });
 
     const handleSubmit = () => {
-        setData("status", true);
-
         put(route("galon.update", driver.id), {
             onSuccess: () => {
                 toast({

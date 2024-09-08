@@ -3,10 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ledger;
+use App\Models\Talangan;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Carbon\Carbon;
 
 class TransactionController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+
+        return Inertia::render('Transaction/Index');
+    }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([

@@ -6,22 +6,6 @@ import { Button } from "@/Components/ui/button";
 import { Switch } from "@/Components/ui/switch";
 import { useTheme } from "@/Components/theme-provider";
 import React from "react";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/Components/ui/dialog";
-import { Input } from "@/Components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Modal } from "@/Components/elements/Modal";
-import {
-    AlertDialogAction,
-    AlertDialogCancel,
-} from "@/Components/ui/alert-dialog";
 import UpdateUserForm from "./Partials/UpdateProfileInformationForm";
 import { DialogClose } from "@radix-ui/react-dialog";
 import MainModal from "@/Components/elements/MainModal";
@@ -29,8 +13,6 @@ import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 
 export default function Edit({
     auth,
-    mustVerifyEmail,
-    status,
 }: PageProps<{ mustVerifyEmail: boolean; status?: string }>) {
     const { setTheme } = useTheme();
     const [darkMode, setDarkMode] = React.useState<boolean>(true);
@@ -59,7 +41,7 @@ export default function Edit({
                         <AvatarImage
                             src={`${
                                 auth.user.image !== null
-                                    ? auth.user.image
+                                    ? "https://github.com/shadcn.png"
                                     : "https://github.com/shadcn.png"
                             }`}
                             alt="@shadcn"
