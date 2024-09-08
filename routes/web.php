@@ -10,6 +10,7 @@ use App\Http\Controllers\TalanganController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserGalonController;
+use App\Http\Controllers\UserPasswordUpdateAuth;
 use App\Http\Controllers\UserRoleUpdateController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/user', UserController::class);
     Route::resource('/user-galon', UserGalonController::class);
     Route::resource('/role', UserRoleUpdateController::class);
-    Route::put('/user/{id}', [UserController::class, 'updateWithAuth'])->name('user.updateWithAuth');
+    Route::resource('/dev-pass', UserPasswordUpdateAuth::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

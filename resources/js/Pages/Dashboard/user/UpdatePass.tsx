@@ -23,7 +23,7 @@ const UpdatePassWithAuthForm = ({ user }: any) => {
     };
 
     const handleSubmit: FormEventHandler = () => {
-        put(route("user.updateWithAuth", user.id), {
+        put(route("dev-pass.update", user.id), {
             onSuccess: () => {
                 reset();
                 setIsFormValid(false);
