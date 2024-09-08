@@ -4,11 +4,10 @@ import { Avatar, AvatarImage } from "@/Components/ui/avatar";
 import { Button } from "@/Components/ui/button";
 import { DialogClose } from "@/Components/ui/dialog";
 import { Input } from "@/Components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Label } from "@/Components/Label";
 import { toast } from "@/hooks/use-toast";
-import { PageProps } from "@/types";
 import { useForm } from "@inertiajs/react";
-import React, { FormEventHandler } from "react";
+import React from "react";
 import {
     DropdownMenu,
     DropdownMenuContent,

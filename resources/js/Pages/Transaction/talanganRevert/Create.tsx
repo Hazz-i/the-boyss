@@ -1,12 +1,11 @@
 import React, { FormEventHandler, useEffect } from "react";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Label } from "@/Components/Label";
 import { useForm } from "@inertiajs/react";
 import { toast } from "@/hooks/use-toast";
 import { DialogClose } from "@radix-ui/react-dialog";
 import MainModal from "@/Components/elements/MainModal";
-import { Textarea } from "@/Components/ui/textarea";
 import {
     DropdownMenu,
     DropdownMenuContent,

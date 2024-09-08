@@ -4,7 +4,7 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import InputError from "@/Components/InputError";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/Components/ui/button";
-import { Label } from "@/components/ui/label";
+import { Label } from "@/Components/Label";
 import { Input } from "@/Components/ui/input";
 
 export default function Login({

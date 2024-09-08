@@ -3,7 +3,7 @@ import { useForm } from "@inertiajs/react";
 import MainModal from "@/Components/elements/MainModal";
 import { Button } from "@/Components/ui/button";
 import SubModal from "@/Components/elements/SubModal";
-import { Label } from "@/components/ui/label";
+import { Label } from "@/Components/Label";
 import { Input } from "@/Components/ui/input";
 import { DialogClose } from "@/Components/ui/dialog";
 import { toast } from "@/hooks/use-toast";

@@ -2,7 +2,7 @@ import MainModal from "@/Components/elements/MainModal";
 import { Button } from "@/Components/ui/button";
 import { DialogClose } from "@/Components/ui/dialog";
 import { Input } from "@/Components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Label } from "@/Components/Label";
 import { Textarea } from "@/Components/ui/textarea";
 import { useForm } from "@inertiajs/react";
 import React, { FormEventHandler } from "react";

@@ -1,7 +1,7 @@
 import React, { FormEventHandler } from "react";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Label } from "@/Components/Label";
 import { useForm, usePage } from "@inertiajs/react";
 import { toast } from "@/hooks/use-toast";
 import MainModal from "@/Components/elements/MainModal";

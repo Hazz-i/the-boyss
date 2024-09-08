@@ -13,7 +13,6 @@ use App\Http\Controllers\UserGalonController;
 use App\Http\Controllers\UserPasswordUpdateAuth;
 use App\Http\Controllers\UserRoleUpdateController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::redirect("/", '/dashboard');
 
