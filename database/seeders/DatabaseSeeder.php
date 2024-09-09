@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'developer',
             'galon' => true,   
             'role' => 'Developer',   
-            'email' => 'developer@gmail.com',
             'whatsapp' => '081234567890',
             'password' => '12341234',
         ]);

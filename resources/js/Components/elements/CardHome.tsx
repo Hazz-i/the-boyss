@@ -4,7 +4,7 @@ type CardProps = {
 
 const CardHome = ({ title }: CardProps) => {
     return (
-        <div className="py-5 shadow-md rounded-lg grid gap-5 border ">
+        <div className="py-5 shadow-md rounded-xl grid gap-5 border dark:bg-gray-800">
             <h1 className="text-center font-bold text-2xl">{title}</h1>
             <div className="flex items-start justify-between px-5 pb-3">
                 <span className="grid gap-2">
@@ -24,7 +24,7 @@ const CardHome = ({ title }: CardProps) => {
                             <tr>
                                 <td className="text-left">Password</td>
                                 <td className="w-4">:</td>
-                                <td>1samapai10</td>
+                                <td>1samapi10</td>
                             </tr>
                         </tbody>
                     </table>

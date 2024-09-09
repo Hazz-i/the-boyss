@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('status');
-            $table->decimal('price', 10, 2);
             $table->string('number');
             $table->timestamps();
         });

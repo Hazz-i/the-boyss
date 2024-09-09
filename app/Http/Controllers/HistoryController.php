@@ -35,8 +35,8 @@ class HistoryController extends Controller
     
         return Inertia::render('History/Index', [
             "queryParams" => request()->query()?:null, 
-            'transactions' => $query->paginate(10)->onEachSide(1),
-            'talangans' => $talanganQuery->paginate(7)->onEachSide(1),
+            'transactions' => $query->get(),
+            'talangans' => $talanganQuery->get(),
         ]);
     }
 

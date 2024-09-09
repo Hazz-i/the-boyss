@@ -12,19 +12,19 @@ const HistorySmWidth = ({
     items,
     links,
     even = "",
-    odd = "bg-gray-200",
+    odd = "bg-gray-200 dark:bg-gray-800",
 }: HistorySmWidthProps) => {
     return (
-        <div className="grid grid-cols-1 rounded-lg shadow-md border">
+        <div className="grid grid-cols-1 rounded-lg shadow-md border dark:border-gray-700 overflow-hidden">
             {items.map((item: any, index: number) => (
                 <span
                     key={index}
-                    className={`flex items-center justify-between rounded-lg p-2 ${
+                    className={`flex items-center justify-between p-2 ${
                         (index + 1) % 2 === 0 ? even : odd
                     }`}
                 >
                     <span className="flex gap-2 items-center">
-                        <div className="p-3 flex items-center justify-center rounded-lg border bg-gray-100 text-[#368CB6]">
+                        <div className="p-3 flex items-center justify-center rounded-lg border bg-gray-100 text-[#368CB6] dark:bg-gray-900 dark:text-[#76ABAE]">
                             {item.transaction_purpose ? (
                                 <i
                                     className={`bx ${
@@ -94,7 +94,7 @@ const HistorySmWidth = ({
                                 + {formatAmount(item.amount)}
                             </p>
                         )}
-                        <small className="font-semibold">
+                        <small className="font-semibold dark:text-[#EEEEEE]">
                             {item.user.username}
                         </small>
                     </div>

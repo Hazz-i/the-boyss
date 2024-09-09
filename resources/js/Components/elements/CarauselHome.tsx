@@ -76,13 +76,13 @@ export function CarauselHome({
         >
             <CarouselContent className=" p-1">
                 {CarauselCards.map((card, index) => (
-                    <CarouselItem key={index} className="pt-1 md:basis-1/2">
+                    <CarouselItem key={index} className="pt-1  md:basis-4/5">
                         <div className="p-1">
                             <Card
                                 className={`${
                                     index % 2 !== 0
-                                        ? "bg-[#5CA4C5] text-white"
-                                        : ""
+                                        ? "bg-[#5CA4C5] text-white dark:bg-[#76ABAE] dark:text-[#EEEEEE]"
+                                        : "dark:bg-gray-800 dark:text-gray-200"
                                 }`}
                             >
                                 <CardContent className="flex items-start justify-center flex-col py-5 gap-5">
@@ -90,16 +90,16 @@ export function CarauselHome({
                                         <span
                                             className={`flex items-center gap-2 font-bold ${
                                                 index % 2 !== 0
-                                                    ? "text-gray-200"
-                                                    : "text-gray-500"
+                                                    ? "text-gray-200 "
+                                                    : "text-gray-500 dark:text-gray-400"
                                             }`}
                                         >
                                             <div
                                                 className={`boder ${
                                                     index % 2 !== 0
-                                                        ? "bg-[#368CB6]"
-                                                        : "bg-[#E5E6EC]"
-                                                } py-1 px-2 dark:bg-gray-800 rounded-xl`}
+                                                        ? "bg-[#368CB6] dark:bg-[#557a7c]"
+                                                        : "bg-[#E5E6EC] dark:bg-gray-900"
+                                                } py-1 px-2 rounded-xl`}
                                             >
                                                 <i
                                                     className={`bx ${card.icon} text-xl`}
@@ -118,7 +118,7 @@ export function CarauselHome({
                                             className={` ${
                                                 index % 2 !== 0
                                                     ? "text-gray-200"
-                                                    : "text-gray-500 "
+                                                    : "text-gray-500 dark:text-gray-400"
                                             }`}
                                         >
                                             {months[new Date().getMonth()]}

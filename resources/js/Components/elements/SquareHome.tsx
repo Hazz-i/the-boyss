@@ -11,9 +11,9 @@ const SquareHome = ({
     text,
     icon,
     color,
-    className = "text-white",
-    text_color = "text-white",
     onclickEvent,
+    className,
+    text_color,
 }: SquareHomeProps) => {
     return (
         <button

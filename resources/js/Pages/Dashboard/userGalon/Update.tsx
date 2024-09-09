@@ -9,7 +9,7 @@ import React, { FormEventHandler } from "react";
 const UserGalonUpdateForm = ({ user }: any) => {
     const [isDone, setIsDone] = React.useState<boolean>(false);
 
-    const { setData, put, processing, reset } = useForm({
+    const { setData, put, reset } = useForm({
         galon: false,
         _method: "PUT",
     });
@@ -43,9 +43,10 @@ const UserGalonUpdateForm = ({ user }: any) => {
         <>
             <SquareHome
                 text={`done`}
-                className="animate-pulse duration-700 border-2 text-white"
                 icon="bx-check"
-                color="bg-[#5CA4C5]"
+                color=" dark:bg-gray-800"
+                text_color="dark:text-gray-300"
+                className="dark:text-gray-300 dark:border-gray-500 animate-pulse duration-700"
                 onclickEvent={() => setIsDone(true)}
             />
             {isDone && (

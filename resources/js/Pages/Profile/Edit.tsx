@@ -5,19 +5,19 @@ import { Avatar, AvatarImage } from "@/Components/ui/avatar";
 import { Button } from "@/Components/ui/button";
 import { Switch } from "@/Components/ui/switch";
 import { useTheme } from "@/Components/theme-provider";
-import React from "react";
+import React, { useEffect } from "react";
 import UpdateUserForm from "./Partials/UpdateProfileInformationForm";
 import { DialogClose } from "@radix-ui/react-dialog";
 import MainModal from "@/Components/elements/MainModal";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
+import { useStateContext } from "@/Context/contextProvider";
 
 export default function Edit({
     auth,
 }: PageProps<{ mustVerifyEmail: boolean; status?: string }>) {
     const { setTheme } = useTheme();
-    const [darkMode, setDarkMode] = React.useState<boolean>(true);
+    const { darkMode, setDarkMode } = useStateContext();
 
-    //modal hanlde
     const [isUpdateInformationOpen, setIsUpdateInformationOpen] =
         React.useState<boolean>(false);
     const [isPasswordUpdate, setIsPasswordUpdate] =
@@ -25,8 +25,11 @@ export default function Edit({
 
     const handleTheme = () => {
         setDarkMode(!darkMode);
-        setTheme(darkMode ? "dark" : "light");
     };
+
+    useEffect(() => {
+        setTheme(darkMode ? "dark" : "light");
+    }, [darkMode]);
 
     return (
         <AuthenticatedLayout
@@ -62,7 +65,7 @@ export default function Edit({
                                 }`}
                             ></i>
                         </p>
-                        <p>{auth.user.email}</p>
+                        <p>{auth.user.role}</p>
                     </div>
                     <Button
                         variant={"primary"}

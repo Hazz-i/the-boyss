@@ -66,28 +66,33 @@ export default function Dashboard({
                             userGalon.length > 0 ? userGalon[0].name : "----"
                         }`}
                         icon="bx-droplet"
-                        color="bg-[#5CA4C5]"
+                        color="bg-[#5CA4C5] dark:bg-[#76ABAE]"
+                        text_color="dark:text-[#EEEEEE] text-white"
+                        className="dark:text-[#EEEEEE] text-white dark:border-[#EEEEEE]"
                         onclickEvent={() => setIsUserGalon(!isUserGalon)}
                     />
 
-                    <button className="px-10 py-5 border grid rounded-xl gap-2 shadow-lg">
-                        <div className="py-2 px-2 flex items-center justify-center rounded-lg border text-black">
-                            <i className="bx bxs-phone-call font-extrabold"></i>
-                        </div>
-                        <small className="text-black font-bold">Pesan</small>
-                    </button>
+                    <SquareHome
+                        text="Pesan Galon"
+                        icon="bxs-phone-call"
+                        color=" dark:bg-gray-800"
+                        text_color="dark:text-gray-300"
+                        className="dark:text-gray-300  dark:border-gray-500"
+                        onclickEvent={() => (window.location.href = "#member")}
+                    />
+
+                    <SquareHome
+                        text="Member"
+                        icon="bx-group"
+                        color="bg-[#5CA4C5] dark:bg-[#76ABAE]"
+                        text_color="dark:text-[#EEEEEE] text-white"
+                        className="dark:text-[#EEEEEE] text-white dark:border-[#EEEEEE]"
+                        onclickEvent={() => (window.location.href = "#member")}
+                    />
 
                     {auth.user.galon === 1 && (
                         <UserGalonUpdateForm user={userGalon} />
                     )}
-
-                    <SquareHome
-                        text="User"
-                        icon="bx-user"
-                        text_color="text-black"
-                        className="text-black"
-                        onclickEvent={() => (window.location.href = "#member")}
-                    />
                 </div>
                 {/* END GALON */}
 
@@ -115,7 +120,7 @@ export default function Dashboard({
                         {lastLegers.length !== 0 && (
                             <Link
                                 href={route("history.index")}
-                                className="flex items-center gap-2 text-[#5CA4C5] bg-gray-200 px-2 h-full rounded-md"
+                                className="flex items-center gap-2 text-[#5CA4C5] bg-gray-200 px-2 h-full rounded-md dark:bg-[#76ABAE] dark:text-[#EEEEEE]"
                             >
                                 <i className="bx bx-dots-horizontal-rounded text-xl"></i>
                             </Link>
@@ -123,7 +128,7 @@ export default function Dashboard({
                     </span>
 
                     {lastLegers.length === 0 ? (
-                        <div className="flex items-center justify-center h-20 rounded-lg shadow-md border">
+                        <div className="flex items-center justify-center h-20 rounded-lg shadow-md border dark:border-gray-700">
                             tidak ada data
                         </div>
                     ) : (

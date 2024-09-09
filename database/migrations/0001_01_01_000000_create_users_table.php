@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('whatsapp')->unique() ->nullable();
             $table->enum('role', ['Developer', 'Anggota', 'Bendahara'])->default("Anggota");
             $table->string('image')->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('galon')->default(false);
             $table->rememberToken();

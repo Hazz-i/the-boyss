@@ -19,12 +19,11 @@ const DriverGalonForm = ({ galonDrivers }: any) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         status: false,
-        price: 0,
         number: "",
     });
 
     const validateForm = () => {
-        if (data.name && data.price && data.number) {
+        if (data.name && data.number) {
             setIsFormValid(true);
         } else {
             setIsFormValid(false);
@@ -54,17 +53,17 @@ const DriverGalonForm = ({ galonDrivers }: any) => {
 
     return (
         <div
-            className="w-full grid p-5 border rounded-xl bg-[#5CA4C5] gap-5 shadow-lg"
+            className="w-full grid p-5 border rounded-xl bg-[#5CA4C5] dark:bg-[#76ABAE] gap-5 shadow-lg"
             id="galon"
         >
             <span className="w-full flex items-center justify-between">
-                <div className=" flex items-center justify-center text-gray-200 gap-1">
+                <div className=" flex items-center justify-center text-gray-200 dark:text-[#EEEEEE] gap-1">
                     <i className="bx bxs-droplet font-extrabold text-xl"></i>
                     <h1 className="text-lg font-semibold">List Kang Galon</h1>
                 </div>
 
                 <button
-                    className="flex items-center gap-2 text-[#5CA4C5] bg-gray-200 px-2 h-full rounded-md animate-pulse"
+                    className="flex items-center gap-2 text-[#5CA4C5] bg-gray-200 dark:text-[#76ABAE] dark:bg-[#EEEEEE] px-2 h-full rounded-md animate-pulse"
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     <i className="bx bx-plus"></i>
@@ -73,7 +72,9 @@ const DriverGalonForm = ({ galonDrivers }: any) => {
 
             <span className="flex flex-wrap gap-2 items-center justify-center pb-3">
                 {galonDrivers.length === 0 ? (
-                    <h1 className="text-gray-200 font-bold">Belum ada data</h1>
+                    <h1 className="text-gray-200 dark:text-[#EEEEEE] font-bold">
+                        Belum ada data
+                    </h1>
                 ) : (
                     galonDrivers.map((driver: any) => (
                         <div key={driver.id}>
@@ -106,21 +107,7 @@ const DriverGalonForm = ({ galonDrivers }: any) => {
                                 />
                             </div>
                             <div className="grid w-full max-w-sm items-center gap-1.5">
-                                <Label htmlFor="price">Harga</Label>
-                                <Input
-                                    type="number"
-                                    value={data.price ? data.price : ""}
-                                    id="price"
-                                    placeholder="Harga galon"
-                                    onChange={(e) => {
-                                        setData(
-                                            "price",
-                                            parseFloat(e.target.value)
-                                        );
-                                        validateForm();
-                                    }}
-                                    leftAddon={<i>Rp</i>}
-                                />
+                                <Label htmlFor="price">Nomor</Label>
                                 <Input
                                     type="text"
                                     id="number"
@@ -144,7 +131,9 @@ const DriverGalonForm = ({ galonDrivers }: any) => {
                                     trigger={
                                         <Button
                                             variant={"primary"}
-                                            disabled={processing}
+                                            disabled={
+                                                processing || !isFormValid
+                                            }
                                             className="w-full"
                                         >
                                             Tambah

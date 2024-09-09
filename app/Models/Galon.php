@@ -11,7 +11,6 @@ class Galon extends Model
 
     protected $fillable = [
         'name',
-        'price',
         'number',
         'status',
     ];  

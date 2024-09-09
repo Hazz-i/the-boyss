@@ -81,7 +81,7 @@ const UserUpdateForm = ({
                         </Avatar>
                     </span>
                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="password">Username</Label>
+                        <Label htmlFor="password">Name</Label>
                         <Input
                             type="text"
                             id="name"
@@ -108,18 +108,16 @@ const UserUpdateForm = ({
                             type="text"
                             id="number"
                             value={position}
-                            placeholder="email"
                             width="w-full"
                             leftAddon={
                                 <i
-                                    className={`bx ${
-                                        user[0].role.toLowerCase() ===
-                                        "developer"
+                                    className={`text-base bx ${
+                                        user[0].role.toLowerCase() === "anggota"
                                             ? "bx-group"
                                             : user[0].role.toLowerCase() ===
                                               "bendahara"
-                                            ? "bx-ball"
-                                            : "bx-group"
+                                            ? "bx-dollar-circle text-yellow-500"
+                                            : "bx bx-code-alt"
                                     }`}
                                 ></i>
                             }

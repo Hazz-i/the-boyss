@@ -11,7 +11,6 @@ class GalonController extends Controller
     {
         $validatedData = $request->validate([
             'name' => ['required', 'string'],
-            'price' => ['required'],
             'number' => ['string', 'required'],
             'status' => ['required', 'boolean'],
         ]);
@@ -23,19 +22,17 @@ class GalonController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validasi input
-        $validatedData = $request->validate([
+        $request->validate([
             'status' => ['required', 'boolean'],
         ]);
     
-        // Set semua galon ke false
         Galon::query()->update(['status' => false]);
     
-        // Update galon dengan ID yang dikirim menjadi true
-        Galon::find($id)->update($validatedData);
+        Galon::find($id)->update([
+            'status' => true,
+        ]);
     
-        // Redirect ke halaman dashboard dengan pesan sukses
-        return to_route('dashboard.index')->with('success', __('Data berhasil diubah'));
+        return back();
     }
     
 

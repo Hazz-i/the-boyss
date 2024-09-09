@@ -1,4 +1,4 @@
-import { FormEventHandler } from "react";
+import React, { FormEventHandler, useEffect, useState } from "react";
 import { Checkbox } from "@/Components/ui/checkbox";
 import GuestLayout from "@/Layouts/GuestLayout";
 import InputError from "@/Components/InputError";
@@ -14,11 +14,16 @@ export default function Login({
     status?: string;
     canResetPassword: boolean;
 }) {
+    const [isRemember, setIsRemember] = React.useState<boolean>(false);
     const { data, setData, post, processing, errors, reset } = useForm({
         username: "",
         password: "",
         remember: false,
     });
+
+    useEffect(() => {
+        setData("remember", isRemember);
+    }, [isRemember]);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -38,31 +43,30 @@ export default function Login({
                 </div>
             )}
 
-            <form onSubmit={submit} className="py-10">
+            <form onSubmit={submit} className="py-10 ">
                 <span className="grid gap-5">
-                    <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="username">Alamat Email</Label>
+                    <div className="grid w-full  items-center gap-1.5">
+                        <Label htmlFor="username">Username</Label>
                         <Input
                             id="username"
                             type="text"
                             name="username"
                             value={data.username}
                             autoComplete="username"
-                            leftAddon={<i className="bx bx-mail-send"></i>}
+                            leftAddon={<i className="bx bx-user"></i>}
                             onChange={(e) =>
                                 setData("username", e.target.value)
                             }
-                            placeholder="Masukan alamat usernmae"
+                            placeholder="Masukan usernmae"
                         />
                         <InputError
                             message={errors.username}
                             className="mt-2"
                         />
                     </div>
-                    <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <div className="grid w-full  items-center gap-1.5">
                         <Label htmlFor="password">Sandi</Label>
                         <Input
-                            // id="password"
                             type="password"
                             name="password"
                             leftAddon={<i className="bx bx-key"></i>}
@@ -81,17 +85,11 @@ export default function Login({
                 </span>
 
                 <div className="flex items-center justify-between mt-4">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 z-40">
                         <Checkbox
                             id="remember"
                             name="remember"
-                            checked={data.remember ? true : false}
-                            onChange={(e) =>
-                                setData(
-                                    "remember",
-                                    (e.target as HTMLInputElement).checked
-                                )
-                            }
+                            onClick={() => setIsRemember(!isRemember)}
                         />
                         <label
                             htmlFor="terms"
@@ -100,14 +98,14 @@ export default function Login({
                             Ingat saya
                         </label>
                     </div>
-                    {canResetPassword && (
+                    {/* {canResetPassword && (
                         <Link
                             href={route("password.request")}
                             className="underline text-sm text-blue-400 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Lupa password?
                         </Link>
-                    )}
+                    )} */}
                 </div>
 
                 <Button

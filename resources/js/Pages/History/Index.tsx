@@ -57,9 +57,7 @@ export default function History({
                         <h1 className="text-lg font-bold">History Bulanan</h1>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button className="bg-[#5CA4C5]">
-                                    {position}
-                                </Button>
+                                <Button variant={"primary"}>{position}</Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-56">
                                 <DropdownMenuLabel>
@@ -86,29 +84,23 @@ export default function History({
                         </DropdownMenu>
                     </div>
 
-                    {transactions.data.length === 0 ? (
-                        <div className="flex items-center justify-center h-20 rounded-lg shadow-md border">
+                    {transactions.length === 0 ? (
+                        <div className="flex items-center justify-center h-20 rounded-lg shadow-md border max-h-[40rem] overflow-y-scroll">
                             Tidak ada data
                         </div>
                     ) : (
-                        <HistorySmWidth
-                            items={transactions.data}
-                            links={transactions.links}
-                        />
+                        <HistorySmWidth items={transactions} />
                     )}
                 </span>
 
                 <span className="grid gap-2">
                     <h1 className="text-lg font-bold">History Talangan</h1>
-                    {talangans.data.length === 0 ? (
-                        <div className="flex items-center justify-center h-20 rounded-lg shadow-md border">
+                    {talangans.length === 0 ? (
+                        <div className="flex items-center justify-center h-20 rounded-lg shadow-md border max-h-[30rem] overflow-y-scroll">
                             Tidak ada data
                         </div>
                     ) : (
-                        <HistorySmWidth
-                            items={talangans.data}
-                            links={talangans.links}
-                        />
+                        <HistorySmWidth items={talangans} />
                     )}
                 </span>
             </div>

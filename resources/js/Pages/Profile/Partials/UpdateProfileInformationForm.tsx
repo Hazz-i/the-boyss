@@ -17,12 +17,11 @@ const UpdateUserForm = ({ isOpen, setIsOpen }: any) => {
     const { data, setData, put, processing, reset } = useForm({
         username: "",
         whatsapp: "",
-        email: "",
         _method: "PUT",
     });
 
     const validateForm = () => {
-        if (data.username || data.whatsapp || data.email) {
+        if (data.username || data.whatsapp) {
             setIsFormValid(true);
         } else {
             setIsFormValid(false);
@@ -85,17 +84,6 @@ const UpdateUserForm = ({ isOpen, setIsOpen }: any) => {
                                 validateForm();
                             }}
                             leftAddon={<i className="bx bxl-whatsapp"></i>}
-                        />
-                        <Input
-                            type="text"
-                            id="number"
-                            value={data.email}
-                            onChange={(e) => {
-                                setData("email", e.target.value);
-                                validateForm();
-                            }}
-                            placeholder="email"
-                            leftAddon={<i className="bx bx-envelope"></i>}
                         />
                     </div>
                 </span>
