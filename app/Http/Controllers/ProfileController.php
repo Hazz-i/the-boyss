@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use App\Traits\CDNRWA;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,8 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    use CDNRWA;
+
     /**
      * Display the user's profile form.
      */
@@ -32,9 +35,9 @@ class ProfileController extends Controller
     public function update(Request $request, string $id): RedirectResponse
     {
         $validatedData = $request->validate([
-            'username' => ['nullable','string', 'max:255'],
-            'whatsapp' => ['nullable','string', 'max:255'],
-            'email' => ['nullable','string', 'lowercase', 'email', 'max:255'],
+            'username' => ['nullable', 'string', 'max:255'],
+            'whatsapp' => ['nullable', 'string', 'max:255'],
+            'email' => ['nullable', 'string', 'lowercase', 'email', 'max:255'],
         ]);
 
         $user = User::findOrFail($id);
@@ -45,6 +48,27 @@ class ProfileController extends Controller
             }
         }
 
+        $user->save();
+
+        return Redirect::route('profile.edit');
+    }
+
+    /**
+     * Update the user's profile image.
+     */
+    public function updatePhoto(Request $request, string $id): RedirectResponse
+    {
+        $request->validate([
+            'image' => ['required', 'image', 'mimes:png,jpg,jpeg', 'max:10240'],
+        ]);
+
+        $uploadImage = $this->uploadRwa('photo', $request->file('image'));
+
+        if (!$uploadImage['status'])
+            return Redirect::route('profile.edit')->with('error', 'terjadi kesalahan ketika upload photo');
+
+        $user = User::findOrFail($id);
+        $user->image = $uploadImage['url'] ?? null;
         $user->save();
 
         return Redirect::route('profile.edit');

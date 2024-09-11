@@ -5,12 +5,18 @@ import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/Label";
 import { Textarea } from "@/Components/ui/textarea";
 import { useForm } from "@inertiajs/react";
-import React, { FormEventHandler } from "react";
+import React, { ChangeEvent, FormEventHandler } from "react";
 import { toast } from "@/hooks/use-toast";
 
 const OutcomeCreate = ({ auth }: any) => {
     const [isFormValid, setIsFormValid] = React.useState<boolean>(false);
-    const { data, setData, post, processing, reset } = useForm({
+    const { data, setData, post, processing, reset } = useForm<{
+        user_id: number;
+        transaction_purpose: string;
+        amount: number;
+        bukti: File | null;
+        status: string;
+    }>({
         user_id: auth.user.id,
         transaction_purpose: "",
         amount: 0,
@@ -26,11 +32,12 @@ const OutcomeCreate = ({ auth }: any) => {
         }
     };
 
-    const handleSubmit: FormEventHandler = () => {
-        if (data.bukti === "") {
-            setData("bukti", null);
-        }
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0] || null;
+        setData("bukti", file);
+    };
 
+    const handleSubmit: FormEventHandler = () => {
         post(route("transaksi.store"), {
             onSuccess: () => {
                 reset();
@@ -82,7 +89,7 @@ const OutcomeCreate = ({ auth }: any) => {
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="picture">Bukti</Label>
-                <Input id="picture" type="file" />
+                <Input id="picture" type="file" onChange={handleFileChange} />
             </div>
             <MainModal
                 title="Konfirmasi"
@@ -90,7 +97,7 @@ const OutcomeCreate = ({ auth }: any) => {
                 trigger={
                     <Button
                         variant={"primary"}
-                        disabled={!isFormValid || processing}
+                        disabled={!isFormValid || processing || !data.bukti}
                     >
                         Kirim
                     </Button>

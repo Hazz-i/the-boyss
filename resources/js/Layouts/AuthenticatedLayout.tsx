@@ -49,8 +49,8 @@ export default function Authenticated({
                     <DropdownMenuTrigger asChild>
                         <Avatar className="w-10 h-10">
                             <AvatarImage
-                                src="https://github.com/shadcn.png"
-                                alt="@shadcn"
+                                src={user.image ?? "https://github.com/shadcn.png"}
+                                alt={user.name}
                             />
                         </Avatar>
                     </DropdownMenuTrigger>

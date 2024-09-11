@@ -17,21 +17,23 @@ use Illuminate\Support\Facades\Route;
 Route::redirect("/", '/dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('/dashboard',DashboardController::class); 
+    Route::resource('/dashboard', DashboardController::class);
     Route::resource('/transaksi', TransactionController::class);
     Route::resource('/default-kas', defaultKasController::class);
     Route::resource('/talangan', TalanganController::class);
+    Route::post('/talangan/{talangan}', [TalanganController::class, 'update'])->name('talangan.update');
     Route::resource('/history', HistoryController::class);
     Route::resource('/galon', GalonController::class);
     Route::resource('/notification', NotificationController::class);
-    
+
     Route::resource('/user', UserController::class);
     Route::resource('/user-galon', UserGalonController::class);
     Route::resource('/role', UserRoleUpdateController::class);
     Route::resource('/dev-pass', UserPasswordUpdateAuth::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/{id}/photo', [ProfileController::class, 'updatePhoto'])->name('profile.update_photo');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
