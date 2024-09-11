@@ -1,4 +1,4 @@
-import React, { FormEventHandler } from "react";
+import React, { ChangeEvent, FormEventHandler } from "react";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/Label";
@@ -21,7 +21,13 @@ const TalanganForm = ({ auth, user }: TalanganFormProps) => {
         return <p>User data is missing</p>;
     }
 
-    const { data, setData, post, processing, reset } = useForm({
+    const { data, setData, post, processing, reset } = useForm<{
+        user_id: number;
+        tujuan: string;
+        amount: number;
+        bukti: File | null;
+        dikembalikan: boolean;
+    }>({
         user_id: currentUser.id,
         tujuan: "",
         amount: 0,
@@ -37,11 +43,12 @@ const TalanganForm = ({ auth, user }: TalanganFormProps) => {
         }
     };
 
-    const handleSubmit: FormEventHandler = () => {
-        if (data.bukti === "") {
-            setData("bukti", null);
-        }
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0] || null;
+        setData("bukti", file);
+    };
 
+    const handleSubmit: FormEventHandler = () => {
         post(route("talangan.store"), {
             onSuccess: () => {
                 reset();
@@ -91,7 +98,7 @@ const TalanganForm = ({ auth, user }: TalanganFormProps) => {
                 </div>
                 <div className="space-y-0">
                     <Label htmlFor="picture">Bukti</Label>
-                    <Input id="picture" type="file" />
+                    <Input id="picture" type="file" onChange={handleFileChange} />
                 </div>
             </span>
             <span>
@@ -101,7 +108,7 @@ const TalanganForm = ({ auth, user }: TalanganFormProps) => {
                     trigger={
                         <Button
                             variant={"primary"}
-                            disabled={processing || !isFormValid}
+                            disabled={processing || !isFormValid || !data.bukti}
                             className="w-full"
                         >
                             Kirim

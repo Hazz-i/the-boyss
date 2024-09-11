@@ -45,6 +45,11 @@ const CardHome = ({ title }: CardProps) => {
                                 <td className="w-4">:</td>
                                 <td>12615566</td>
                             </tr>
+                            <tr>
+                                <td className="text-left">Gambar Diterima</td>
+                                <td className="w-4">:</td>
+                                <td>PNG, JPG, JPEG</td>
+                            </tr>
                         </tbody>
                     </table>
                 </span>

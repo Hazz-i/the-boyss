@@ -10,6 +10,7 @@ import UpdateUserForm from "./Partials/UpdateProfileInformationForm";
 import { DialogClose } from "@radix-ui/react-dialog";
 import MainModal from "@/Components/elements/MainModal";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
+import UpdatePhotoProfile from "./Partials/UpdatePhotoProfile";
 import { useStateContext } from "@/Context/contextProvider";
 
 export default function Edit({
@@ -21,6 +22,8 @@ export default function Edit({
     const [isUpdateInformationOpen, setIsUpdateInformationOpen] =
         React.useState<boolean>(false);
     const [isPasswordUpdate, setIsPasswordUpdate] =
+        React.useState<boolean>(false);
+    const [isUpdatePhoto, setIsUpdatePhoto] =
         React.useState<boolean>(false);
 
     const handleTheme = () => {
@@ -43,11 +46,9 @@ export default function Edit({
                     <Avatar className="w-32 h-32">
                         <AvatarImage
                             src={`${
-                                auth.user.image !== null
-                                    ? "https://github.com/shadcn.png"
-                                    : "https://github.com/shadcn.png"
+                                auth.user.image ?? "https://github.com/shadcn.png"
                             }`}
-                            alt="@shadcn"
+                            alt={auth.user.name}
                         />
                     </Avatar>
                     <div className="flex flex-col items-center justify-center text-sm">
@@ -67,6 +68,7 @@ export default function Edit({
                         </p>
                         <p>{auth.user.role}</p>
                     </div>
+                    <div className="flex gap-4">
                     <Button
                         variant={"primary"}
                         onClick={() =>
@@ -75,6 +77,15 @@ export default function Edit({
                     >
                         Edit Profile
                     </Button>
+                    <Button
+                        variant={"primary"}
+                        onClick={() =>
+                            setIsUpdatePhoto(!isUpdatePhoto)
+                        }
+                    >
+                        Edit Photo
+                    </Button>
+                    </div>
                 </span>
 
                 <span className="grid gap-2">
@@ -168,6 +179,13 @@ export default function Edit({
                 <UpdatePasswordForm
                     isOpen={isPasswordUpdate}
                     setIsOpen={setIsPasswordUpdate}
+                />
+            )}
+            
+            {isUpdatePhoto && (
+                <UpdatePhotoProfile
+                    isOpen={isUpdatePhoto}
+                    setIsOpen={setIsUpdatePhoto}
                 />
             )}
         </AuthenticatedLayout>

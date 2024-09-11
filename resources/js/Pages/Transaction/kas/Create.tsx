@@ -1,4 +1,4 @@
-import { FormEventHandler } from "react";
+import { FormEventHandler, ChangeEvent } from "react";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/Label";
@@ -25,7 +25,13 @@ const KasForm = ({ auth, user }: KasFormProps) => {
         return <p>User data is missing</p>;
     }
 
-    const { data, setData, post, processing, reset } = useForm({
+    const { data, setData, post, processing, reset } = useForm<{
+        user_id: number;
+        transaction_purpose: string;
+        amount: number;
+        bukti: File | null;
+        status: string;
+    }>({
         user_id: currentUser.id,
         transaction_purpose: "KAS",
         amount: defaultKas.default_kas,
@@ -34,10 +40,6 @@ const KasForm = ({ auth, user }: KasFormProps) => {
     });
 
     const handleSubmit: FormEventHandler = () => {
-        if (data.bukti === "") {
-            setData("bukti", null);
-        }
-
         post(route("transaksi.store"), {
             onSuccess: () => {
                 reset();
@@ -55,6 +57,11 @@ const KasForm = ({ auth, user }: KasFormProps) => {
                 });
             },
         });
+    };
+
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0] || null;
+        setData("bukti", file);
     };
 
     return (
@@ -89,7 +96,7 @@ const KasForm = ({ auth, user }: KasFormProps) => {
                         </div>
                         <div className="space-y-0">
                             <Label htmlFor="picture">Bukti</Label>
-                            <Input id="picture" type="file" />
+                            <Input id="picture" type="file" onChange={handleFileChange} />
                         </div>
                     </span>
                     <span>
@@ -99,7 +106,7 @@ const KasForm = ({ auth, user }: KasFormProps) => {
                             trigger={
                                 <Button
                                     variant={"primary"}
-                                    disabled={processing}
+                                    disabled={processing || !data.bukti}
                                     className="w-full"
                                 >
                                     Kirim

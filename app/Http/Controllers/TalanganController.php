@@ -4,30 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Ledger;
 use App\Models\Talangan;
+use App\Traits\CDNRWA;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TalanganController extends Controller
 {
+    use CDNRWA;
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'user_id' => ['required'],
             'amount' => ['required'],
             'tujuan' => ['required', 'string'],
-            'bukti' => ['nullable', 'image', 'max:1024'],
+            'bukti' => ['required', 'image', 'mimes:png,jpg,jpeg', 'max:1024'],
             'dikembalikan' => ['required', 'boolean'],
         ]);
 
-        $image = $validatedData['bukti'] ?? null;
+        $uploadImage = $this->uploadRwa('talangan', $request->file('bukti'));
+        if (!$uploadImage['status'])
+            return back()->with('error', 'terjadi kesalahan ketika upload bukti');
 
-        if ($image) {
-            $validatedData['img_path'] = $image->store('project-img', 'public');
-        }
+        $validatedData['bukti'] = $uploadImage['url'] ?? null;
 
         Talangan::create($validatedData);
 
         return back()->with('success', 'data berhasil ditambahkan');
-
     }
 
     public function update(Request $request, string $id)
@@ -35,18 +38,18 @@ class TalanganController extends Controller
         $validatedData = $request->validate([
             'amount' => ['required'],
             'dikembalikan' => ['required', 'boolean'],
-            'bukti' => ['nullable', 'image', 'max:1024'],
+            'bukti' => ['required', 'image', 'mimes:png,jpg,jpeg', 'max:1024'],
         ]);
-        
-        $image = $validatedData['bukti'] ?? null;
-        
-        if ($image) {
-            $validatedData['img_path'] = $image->store('project-img', 'public');
-        }
-        
+
+        $uploadImage = $this->uploadRwa('talangan', $request->file('bukti'));
+        if (!$uploadImage['status'])
+            return back()->with('error', 'terjadi kesalahan ketika upload bukti');
+
+        $validatedData['bukti'] = $uploadImage['url'] ?? null;
+
         Talangan::find($id)->update([
             'dikembalikan' => $validatedData['dikembalikan'],
-            'bukti' => $validatedData['bukti'],
+            // 'bukti' => $validatedData['bukti'], // jangan di update bukti lamanya
         ]);
         Ledger::create([
             'user_id' => auth()->id(),
@@ -58,5 +61,4 @@ class TalanganController extends Controller
 
         return back();
     }
-
 }
