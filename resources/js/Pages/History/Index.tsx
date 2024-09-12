@@ -50,7 +50,7 @@ export default function History({
         >
             <Head title="History" />
 
-            <div className="md:px-10 grid gap-2 pb-24">
+            <div className="md:px-10 grid gap-2 pb-24 px-2">
                 <span className="grid gap-2">
                     <div className="flex items-center justify-between">
                         <h1 className="text-lg font-bold">History Bulanan</h1>
