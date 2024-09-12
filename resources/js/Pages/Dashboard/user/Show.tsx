@@ -102,11 +102,10 @@ const ShowUsers = ({ users }: any) => {
                                         <Avatar className="w-10 h-10">
                                             <AvatarImage
                                                 src={`${
-                                                    user.image !== null
-                                                        ? "https://github.com/shadcn.png"
-                                                        : "https://github.com/shadcn.png"
+                                                    user.image ??
+                                                    "https://github.com/shadcn.png"
                                                 }`}
-                                                alt="@shadcn"
+                                                alt={user.name}
                                             />
                                         </Avatar>
                                         <span className="grid text-start">
