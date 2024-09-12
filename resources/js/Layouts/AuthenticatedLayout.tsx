@@ -24,7 +24,6 @@ import KasForm from "@/Pages/Transaction/kas/Create";
 import TalanganForm from "@/Pages/Transaction/talangan/Create";
 import MainModal from "@/Components/elements/MainModal";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { ModeToggle } from "@/Components/darkToogle/mode-toogle";
 
 export default function Authenticated({
     user,
