@@ -48,7 +48,9 @@ const CardHome = ({ title }: CardProps) => {
                             <tr>
                                 <td className="text-left">Gambar</td>
                                 <td className="w-4">:</td>
-                                <td>PNG, JPG, JPEG</td>
+                                <td>
+                                    <small>PNG, JPG, JPEG</small>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

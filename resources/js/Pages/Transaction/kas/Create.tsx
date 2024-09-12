@@ -18,7 +18,7 @@ const KasForm = ({ auth, user }: KasFormProps) => {
     const isKasExist = ledgers?.filter(
         (ledger: any) =>
             currentUser.id === ledger.user_id &&
-            ledger.transaction_purpose === "KAS"
+            ledger.transaction_purpose.toLowerCase().includes("kas")
     );
 
     if (!currentUser) {
@@ -96,7 +96,11 @@ const KasForm = ({ auth, user }: KasFormProps) => {
                         </div>
                         <div className="space-y-0">
                             <Label htmlFor="picture">Bukti</Label>
-                            <Input id="picture" type="file" onChange={handleFileChange} />
+                            <Input
+                                id="picture"
+                                type="file"
+                                onChange={handleFileChange}
+                            />
                         </div>
                     </span>
                     <span>

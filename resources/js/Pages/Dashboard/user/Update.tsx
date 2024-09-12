@@ -72,11 +72,10 @@ const UserUpdateForm = ({
                         <Avatar className="w-32 h-32">
                             <AvatarImage
                                 src={`${
-                                    user.image
-                                        ? "https://github.com/shadcn.png"
-                                        : "https://github.com/shadcn.png"
+                                    user[0].image ??
+                                    "https://github.com/shadcn.png"
                                 }`}
-                                alt="@shadcn"
+                                alt={user.name}
                             />
                         </Avatar>
                     </span>
