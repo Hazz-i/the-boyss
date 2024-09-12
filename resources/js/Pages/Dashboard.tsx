@@ -7,7 +7,7 @@ import HistorySmWidth from "@/Components/elements/HistorySmWidth";
 import DriverGalonForm from "./Dashboard/galon/Create";
 import SquareHome from "@/Components/elements/SquareHome";
 import ShowUsers from "./Dashboard/user/Show";
-import React from "react";
+import React, { useEffect } from "react";
 import SubModal from "@/Components/elements/SubModal";
 import UserGalonUpdateForm from "./Dashboard/userGalon/Update";
 
@@ -18,6 +18,15 @@ type DashboardProps = {
     users: any;
     galonDrivers: any;
     talangan: any;
+};
+
+type GalonDriver = {
+    id: number;
+    name: string;
+    number: string;
+    status: boolean;
+    updated_at: string;
+    created_at: string;
 };
 
 export default function Dashboard({
@@ -33,6 +42,14 @@ export default function Dashboard({
     const lastLegers = ledgers.slice(0, 5);
     const userGalon = users.filter((user: any) => user.galon === 1);
     const [isUserGalon, setIsUserGalon] = React.useState<boolean>(false);
+    const [galonDriverSelected, setGalonDriverSelected] =
+        React.useState<GalonDriver>();
+
+    useEffect(() => {
+        setGalonDriverSelected(
+            galonDrivers.find((driver: any) => driver.status === 1)
+        );
+    }, [galonDrivers]);
 
     return (
         <AuthenticatedLayout
@@ -78,7 +95,14 @@ export default function Dashboard({
                         color=" dark:bg-gray-800"
                         text_color="dark:text-gray-300"
                         className="dark:text-gray-300  dark:border-gray-500"
-                        onclickEvent={() => (window.location.href = "#member")}
+                        onclickEvent={() => {
+                            const phoneNumber = galonDriverSelected?.number;
+                            const message = encodeURIComponent(
+                                "Pesan Galon 2 alamat Jalan Gurame IV no 5, terimakasih"
+                            );
+                            const waUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+                            window.open(waUrl, "_blank");
+                        }}
                     />
 
                     <SquareHome
@@ -100,7 +124,7 @@ export default function Dashboard({
                 <div className="grid gap-2">
                     <h1 className=" text-xl font-bold">Informasi</h1>
 
-                    <span className="grid grid-cols-1 lg:grid-cols-5 gap-2">
+                    <span className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                         <CardHome title="The Boys" />
 
                         <DriverGalonForm galonDrivers={galonDrivers} />

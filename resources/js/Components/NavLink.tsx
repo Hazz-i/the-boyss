@@ -16,7 +16,7 @@ export default function NavLink({
         <Link
             {...props}
             className={
-                "flex flex-col rounded-full items-center justify-center py-2 px-3 font-medium leading-5 transition duration-150 ease-in-out focus:outline-none bx " +
+                "flex flex-col rounded-full items-center justify-center py-2 px-3 font-medium leading-5 transition duration-150 ease-in-out focus:outline-none bx md:px-10 md:py-1 md:rounded-lg md:flex-row md:gap-2 md:justify-start " +
                 (active
                     ? `bg-gray-300 text-gray-500 dark:text-[#EEEEEE] dark:bg-gray-950 `
                     : `text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:text-gray-700 `) +
@@ -24,6 +24,7 @@ export default function NavLink({
             }
         >
             <i className={`text-xl bx ${active ? icon_active : icon}`}></i>
+            {children}
         </Link>
     );
 }

@@ -2,17 +2,14 @@ import React, { FormEventHandler } from "react";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/Label";
-import { useForm, usePage } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import { toast } from "@/hooks/use-toast";
 import MainModal from "@/Components/elements/MainModal";
 import { DialogClose } from "@radix-ui/react-dialog";
 import GalonActiveForm from "./Active";
 import SubModal from "@/Components/elements/SubModal";
-import { PageProps } from "@/types";
 
 const DriverGalonForm = ({ galonDrivers }: any) => {
-    const user = usePage<PageProps>().props.auth.user;
-
     const [isFormValid, setIsFormValid] = React.useState<boolean>(false);
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
 

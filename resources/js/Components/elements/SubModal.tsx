@@ -27,7 +27,7 @@ const SubModal = ({
 }: SubModalProps) => {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogContent className="max-w-sm sm:max-w-[425px] rounded-lg">
+            <DialogContent className="max-w-sm md:max-w-xl rounded-lg">
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>
                     <DialogDescription>{description}</DialogDescription>

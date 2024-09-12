@@ -10,7 +10,7 @@ const UserGalonUpdateForm = ({ user }: any) => {
     const [isDone, setIsDone] = React.useState<boolean>(false);
 
     const { setData, put, reset } = useForm({
-        galon: false,
+        galon: true,
         _method: "PUT",
     });
 

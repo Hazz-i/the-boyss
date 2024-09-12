@@ -29,11 +29,10 @@ export default function History({
 }>) {
     queryParams = queryParams || null;
 
-    // Function to handle month change in dropdown
     const searchMonthChanged = (month: string) => {
         router.get(route("history.index"), {
-            ...queryParams, // Include existing query parameters
-            month, // Add the selected month
+            ...queryParams,
+            month,
         });
     };
     const [position, setPosition] = React.useState<string>(
@@ -51,7 +50,7 @@ export default function History({
         >
             <Head title="History" />
 
-            <div className="px-2 grid gap-2 pb-24">
+            <div className="px-10 grid gap-2 pb-24">
                 <span className="grid gap-2">
                     <div className="flex items-center justify-between">
                         <h1 className="text-lg font-bold">History Bulanan</h1>
@@ -85,22 +84,28 @@ export default function History({
                     </div>
 
                     {transactions.length === 0 ? (
-                        <div className="flex items-center justify-center h-20 rounded-lg shadow-md border max-h-[40rem] overflow-y-scroll">
+                        <div className="flex items-center justify-center h-20 rounded-lg shadow-md border">
                             Tidak ada data
                         </div>
                     ) : (
-                        <HistorySmWidth items={transactions} />
+                        <HistorySmWidth
+                            items={transactions}
+                            className="max-h-[30rem] overflow-y-scroll md:max-h-screen md:overflow-hidden"
+                        />
                     )}
                 </span>
 
                 <span className="grid gap-2">
                     <h1 className="text-lg font-bold">History Talangan</h1>
                     {talangans.length === 0 ? (
-                        <div className="flex items-center justify-center h-20 rounded-lg shadow-md border max-h-[30rem] overflow-y-scroll">
+                        <div className="flex items-center justify-center h-20 rounded-lg shadow-md border">
                             Tidak ada data
                         </div>
                     ) : (
-                        <HistorySmWidth items={talangans} />
+                        <HistorySmWidth
+                            items={talangans}
+                            className="max-h-[20rem] overflow-y-scroll md:max-h-full md:overflow-hidden"
+                        />
                     )}
                 </span>
             </div>

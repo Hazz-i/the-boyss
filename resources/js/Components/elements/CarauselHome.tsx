@@ -6,9 +6,8 @@ import {
     CarouselContent,
     CarouselItem,
     CarouselNext,
-    CarouselPrevious,
 } from "@/Components/ui/carousel";
-import { formatAmount, formatDate, months } from "@/formater";
+import { formatAmount, months } from "@/formater";
 import { usePage } from "@inertiajs/react";
 
 type CarauselProps = {
@@ -72,18 +71,18 @@ export function CarauselHome({
                 align: "start",
             }}
             orientation="horizontal"
-            className="w-full max-w-xs"
+            className="w-full max-w-xs md:max-w-6xl"
         >
-            <CarouselContent className=" p-1">
+            <CarouselContent className="p-1">
                 {CarauselCards.map((card, index) => (
-                    <CarouselItem key={index} className="pt-1  md:basis-4/5">
+                    <CarouselItem key={index} className="pt-1 md:basis-1/4">
                         <div className="p-1">
                             <Card
                                 className={`${
                                     index % 2 !== 0
                                         ? "bg-[#5CA4C5] text-white dark:bg-[#76ABAE] dark:text-[#EEEEEE]"
                                         : "dark:bg-gray-800 dark:text-gray-200"
-                                }`}
+                                } `}
                             >
                                 <CardContent className="flex items-start justify-center flex-col py-5 gap-5">
                                     <div className="flex items-center justify-between w-full">
@@ -138,7 +137,7 @@ export function CarauselHome({
                     </CarouselItem>
                 ))}
             </CarouselContent>
-            <CarouselNext />
+            <CarouselNext className="md:hidden" />
         </Carousel>
     );
 }

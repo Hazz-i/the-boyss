@@ -12,20 +12,25 @@ class UserGalonController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // Validate the request data
         $validatedData = $request->validate([
             'galon' => ['required', 'boolean'],
         ]);
-
+    
+        // Set all users' 'galon' field to false
         User::query()->update(['galon' => false]);
-        $nextUser = User::find($id + 1);
-        
+    
+        $currentUser = User::find(id: $id);
+    
+        $nextUser = User::where('id', '>', $currentUser->id)->orderBy('id')->first();
+    
         if ($nextUser === null) {
             $firstUser = User::orderBy('id')->first();
             $firstUser->update($validatedData);
         } else {
             $nextUser->update($validatedData);
         }
-
+    
         return back();
     }
 

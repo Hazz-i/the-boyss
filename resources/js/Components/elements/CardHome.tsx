@@ -24,7 +24,7 @@ const CardHome = ({ title }: CardProps) => {
                             <tr>
                                 <td className="text-left">Password</td>
                                 <td className="w-4">:</td>
-                                <td>1samapi10</td>
+                                <td>1sampai10</td>
                             </tr>
                         </tbody>
                     </table>
@@ -46,7 +46,7 @@ const CardHome = ({ title }: CardProps) => {
                                 <td>12615566</td>
                             </tr>
                             <tr>
-                                <td className="text-left">Gambar Diterima</td>
+                                <td className="text-left">Gambar</td>
                                 <td className="w-4">:</td>
                                 <td>PNG, JPG, JPEG</td>
                             </tr>

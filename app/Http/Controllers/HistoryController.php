@@ -25,6 +25,7 @@ class HistoryController extends Controller
             $endOfMonth = Carbon::createFromFormat('F', $month)->endOfMonth();
             
             $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+            $talanganQuery->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
         } else {
             $currentMonthStart = Carbon::now()->startOfMonth();
             $currentMonthEnd = Carbon::now()->endOfMonth();
@@ -35,8 +36,8 @@ class HistoryController extends Controller
     
         return Inertia::render('History/Index', [
             "queryParams" => request()->query()?:null, 
-            'transactions' => $query->get(),
-            'talangans' => $talanganQuery->get(),
+            'transactions' => $query->orderBy('created_at', 'desc')->get(),
+            'talangans' => $talanganQuery->orderBy('created_at', 'desc')->get(),
         ]);
     }
 

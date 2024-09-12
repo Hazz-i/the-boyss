@@ -78,7 +78,7 @@ export default function Transaction({
                     <>
                         <span className="grid gap-2">
                             <h1>Pengeluaran</h1>
-                            {currentSaldo == 0 ? (
+                            {currentSaldo <= 0 ? (
                                 <span className="shadow rounded-lg grid gap-5 py-10 px-5 bg-white dark:bg-black text-center">
                                     <small className="font-semibold">
                                         Saldo Kas Udah Abis,

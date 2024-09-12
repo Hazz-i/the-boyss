@@ -33,7 +33,7 @@ const ShowUsers = ({ users }: any) => {
                 )}
             </span>
 
-            <span className="flex flex-col gap-1 items-center justify-center">
+            <span className="flex flex-col gap-1 items-center justify-start max-h-[15rem] overflow-y-scroll">
                 {users.length === 0 ? (
                     <h1 className="font-bold">Belum ada data</h1>
                 ) : (

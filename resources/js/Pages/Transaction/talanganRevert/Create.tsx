@@ -148,7 +148,11 @@ const TalanganRevertForm = ({ talangans }: TalanganRevertFormProps) => {
                 </div>
                 <div className="space-y-0">
                     <Label htmlFor="picture">Bukti</Label>
-                    <Input id="picture" type="file" onChange={handleFileChange} />
+                    <Input
+                        id="picture"
+                        type="file"
+                        onChange={handleFileChange}
+                    />
                 </div>
             </span>
             <span>
