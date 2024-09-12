@@ -144,13 +144,18 @@ const HistorySmWidth = ({
                                         <h1 className="font-semibold text-sm text-start flex items-center gap-2">
                                             {data.transaction_purpose ??
                                                 data.tujuan}
-                                            {data.dikembalikan ? (
-                                                <small className="px-1 bg-green-500 rounded-md text-[#EEEEEE]">
-                                                    Dikembalikan
-                                                </small>
-                                            ) : (
-                                                <small className="px-1 bg-red-500 rounded-md text-[#EEEEEE]">
-                                                    Blm di balikin
+                                            {data.dikembalikan !==
+                                                undefined && (
+                                                <small
+                                                    className={`px-1 ${
+                                                        data.dikembalikan
+                                                            ? "bg-green-600 text-[#EEEEEE]"
+                                                            : "bg-red-600 text-[#EEEEEE]"
+                                                    } rounded-md`}
+                                                >
+                                                    {data.dikembalikan
+                                                        ? "Dikembalikan"
+                                                        : "Blm di balikin"}
                                                 </small>
                                             )}
                                         </h1>
