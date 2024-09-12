@@ -4,11 +4,11 @@ namespace App\Providers;
 
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
 use App\Models\DefaultKas;
 use App\Models\Ledger;
 use App\Models\Talangan;
-use Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,46 +25,64 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if(Schema::hasTable('ledgers')) {
-            $currentMonthStart = Carbon::now()->startOfMonth();
-            $currentMonthEnd = Carbon::now()->endOfMonth();
-            
-            $ledgers = Ledger::with('user')
-                ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
-                ->orderBy('created_at', 'desc')
-                ->get();
+        $this->shareInertiaData();
+    }
 
-            $currentMonthStart = Carbon::now()->startOfMonth();
-            $currentMonthEnd = Carbon::now()->endOfMonth();
-        
-            // Hitung total pemasukan (IN) pada bulan ini
-            $totalIn = Ledger::where('status', 'IN')
-                ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
-                ->sum('amount');
-
-            // Hitung total pengeluaran (OUT) pada bulan ini
-            $totalOut = Ledger::where('status', 'OUT')
-                ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
-                ->sum('amount');
-
-            $currentSaldo = $totalIn - $totalOut;
-
-            $talangans = Talangan::with('user')->orderBy('created_at', 'desc')->get();
-            
-            Inertia::share([
-                'defaultKas' => function () {
-                    return DefaultKas::first();
-                },
-                'ledgers' => function () use ($ledgers) {
-                    return $ledgers; 
-                },
-                'talangans' => function () use ($talangans) {
-                    return $talangans; 
-                },
-                'currentSaldo' => function () use ($currentSaldo) {
-                    return $currentSaldo; 
-                },
-            ]);
+    /**
+     * Share data with Inertia.
+     */
+    private function shareInertiaData(): void
+    {
+        if ($this->app->runningInConsole()) {
+            return;
         }
+
+        if (!Schema::hasTable('ledgers')) {
+            return;
+        }
+
+        Inertia::share([
+            'defaultKas' => fn () => $this->getDefaultKas(),
+            'ledgers' => fn () => $this->getLedgers(),
+            'talangans' => fn () => $this->getTalangans(),
+            'currentSaldo' => fn () => $this->getCurrentSaldo(),
+        ]);
+    }
+
+    private function getDefaultKas()
+    {
+        return DefaultKas::first();
+    }
+
+    private function getLedgers()
+    {
+        $currentMonthStart = Carbon::now()->startOfMonth();
+        $currentMonthEnd = Carbon::now()->endOfMonth();
+
+        return Ledger::with('user')
+            ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
+    private function getTalangans()
+    {
+        return Talangan::with('user')->orderBy('created_at', 'desc')->get();
+    }
+
+    private function getCurrentSaldo()
+    {
+        $currentMonthStart = Carbon::now()->startOfMonth();
+        $currentMonthEnd = Carbon::now()->endOfMonth();
+
+        $totalIn = Ledger::where('status', 'IN')
+            ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
+            ->sum('amount');
+
+        $totalOut = Ledger::where('status', 'OUT')
+            ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
+            ->sum('amount');
+
+        return $totalIn - $totalOut;
     }
 }
