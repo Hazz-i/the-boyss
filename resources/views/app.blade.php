@@ -1,11 +1,13 @@
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
-    <link rel="icon" href="{{ asset('icon.svg') }}" type="svg">
+    <link rel="icon" href="{{ secure_asset('icon.svg') }}" type="svg">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
