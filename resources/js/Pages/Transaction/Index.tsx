@@ -80,23 +80,39 @@ export default function Transaction({
                             <h1>Pengeluaran</h1>
                             {currentSaldo <= 0 ? (
                                 <span className="shadow rounded-lg grid gap-5 py-10 px-5 bg-white dark:bg-black text-center">
-                                    <small className="font-semibold">
-                                        Saldo Kas Udah Abis,
-                                        <br /> Untuk sementara masukan rekap ke
-                                        talngan 😊
-                                    </small>
+                                    <p className="font-semibold">
+                                        Saldo Kas Udah Abis
+                                        <br />
+                                        <small>
+                                            Untuk sementara masukan rekap ke
+                                            talngan 😊
+                                        </small>
+                                    </p>
                                 </span>
                             ) : (
                                 <OutcomeCreate auth={auth} />
                             )}
                         </span>
-
-                        {talanganFiltered.length > 0 && (
-                            <span className="grid gap-2">
-                                <h1>Pengembalian Talangan</h1>
-                                <TalanganRevertForm talangans={talangans} />
+                        {currentSaldo <= 0 ? (
+                            <span className="shadow rounded-lg grid gap-5 py-10 px-5 bg-white dark:bg-black text-center">
+                                <p className="font-semibold">
+                                    Saldo Kas Udah Abis
+                                    <br />
+                                    <small>
+                                        Untuk sementara ini belum bisa melakukan
+                                        pengembalian talangan
+                                    </small>
+                                </p>
                             </span>
+                        ) : (
+                            talanganFiltered.length > 0 && (
+                                <span className="grid gap-2">
+                                    <h1>Pengembalian Talangan</h1>
+                                    <TalanganRevertForm talangans={talangans} />
+                                </span>
+                            )
                         )}
+
                         <span className="grid gap-2">
                             <h1>Default Kas</h1>
                             <DefaultKasForm />

@@ -78,8 +78,8 @@ export default function Edit({
 
                     <span className="grid gap-2">
                         <h1>Setting</h1>
-                        <SmModeToggle />
                         <div className="shadow rounded-lg grid border">
+                            <SmModeToggle />
                             <button
                                 className="flex items-center justify-between p-2 border-t border-b z-10"
                                 onClick={() =>

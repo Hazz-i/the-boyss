@@ -75,14 +75,28 @@ class AppServiceProvider extends ServiceProvider
         $currentMonthStart = Carbon::now()->startOfMonth();
         $currentMonthEnd = Carbon::now()->endOfMonth();
 
-        $totalIn = Ledger::where('status', 'IN')
+        // Hitung total IN dan OUT untuk bulan ini
+        $totalInThisMonth = Ledger::where('status', 'IN')
             ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
             ->sum('amount');
 
-        $totalOut = Ledger::where('status', 'OUT')
+        $totalOutThisMonth = Ledger::where('status', 'OUT')
             ->whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])
             ->sum('amount');
 
-        return $totalIn - $totalOut;
+        // Hitung saldo sisa dari bulan sebelumnya
+        $totalInBeforeThisMonth = Ledger::where('status', 'IN')
+            ->where('created_at', '<', $currentMonthStart)
+            ->sum('amount');
+
+        $totalOutBeforeThisMonth = Ledger::where('status', 'OUT')
+            ->where('created_at', '<', $currentMonthStart)
+            ->sum('amount');
+
+        // Saldo bulan sebelumnya
+        $saldoBeforeThisMonth = $totalInBeforeThisMonth - $totalOutBeforeThisMonth;
+
+        // Saldo bulan ini dengan penambahan saldo dari bulan sebelumnya
+        return $saldoBeforeThisMonth + ($totalInThisMonth - $totalOutThisMonth);
     }
 }

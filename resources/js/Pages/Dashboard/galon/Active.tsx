@@ -38,7 +38,7 @@ const GalonActiveForm = ({ driver }: any) => {
                     className={`py-1 px-3 ${
                         driver.status === 1
                             ? "bg-gray-200 text-[#368CB6] dark:bg-[#EEEEEE] dark:text-[#76ABAE]"
-                            : "border text-gray-200"
+                            : "border text-gray-200 dark:border-[#EEEEEE]"
                     } rounded-md`}
                     disabled={driver.status}
                 >
