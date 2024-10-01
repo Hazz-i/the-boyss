@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -23,6 +24,15 @@ class DashboardController extends Controller
         $currentMonthEnd = Carbon::now()->endOfMonth();
     
         $galonDriver = Galon::get();
+
+        $saldo = DB::table('ledgers')
+                ->select(DB::raw('YEAR(created_at) as year, MONTH(created_at) as month'))
+                ->selectRaw('SUM(CASE WHEN status = "IN" THEN amount ELSE 0 END) as total_in')
+                ->selectRaw('SUM(CASE WHEN status = "OUT" THEN amount ELSE 0 END) as total_out')
+                ->selectRaw('SUM(CASE WHEN status = "IN" THEN amount ELSE 0 END) - SUM(CASE WHEN status = "OUT" THEN amount ELSE 0 END) as saldo_sisa')
+                ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
+                ->having('saldo_sisa', '>', 0)  
+                ->get();
 
         $kas = $query->where('status', 'IN')
             ->whereLike('transaction_purpose', '%kas%')
@@ -42,6 +52,7 @@ class DashboardController extends Controller
         $users = User::all();
 
         return Inertia::render('Dashboard', [
+            'saldoCounts' => $saldo,
             'galonDrivers' => $galonDriver,
             'users' => $users,
             'peopleRemaining' => $peopleRemaining,
