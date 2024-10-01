@@ -5,6 +5,7 @@ namespace App\Providers;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
 use App\Models\DefaultKas;
 use App\Models\Ledger;
@@ -25,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }   
         $this->shareInertiaData();
     }
 
