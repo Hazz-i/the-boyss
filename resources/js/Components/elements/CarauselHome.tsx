@@ -193,15 +193,12 @@ export function CarauselHome({
                                 (talangan: any, index: number) => (
                                     <div
                                         key={index}
-                                        className="px-5 flex gap-5 py-1.5 border text-white rounded-md items-center justify-center"
+                                        className="px-5 flex gap-2 py-1 border text-white rounded-md items-center justify-center"
                                     >
-                                        <small className="font-semibold">
-                                            {talangan.tujuan}
-                                        </small>
-                                        -
-                                        <small>
-                                            {formatAmount(talangan.amount)} -{" "}
-                                            {talangan.user.name}
+                                        <small>{talangan.tujuan}</small>-
+                                        <small className="font-semibold flex items-center justify-center">
+                                            {formatAmount(talangan.amount)} (
+                                            <small>{talangan.user.name}</small>)
                                         </small>
                                     </div>
                                 )
