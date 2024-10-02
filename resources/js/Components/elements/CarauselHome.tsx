@@ -17,6 +17,7 @@ type CarauselProps = {
     currentSaldo: number;
     talangan: any;
     saldoCounts: any;
+    talanganCounts: any;
 };
 
 export function CarauselHome({
@@ -25,6 +26,7 @@ export function CarauselHome({
     currentSaldo,
     talangan,
     saldoCounts,
+    talanganCounts,
 }: CarauselProps): JSX.Element {
     const { defaultKas, talangans }: any = usePage().props;
     const [saldoDetail, setSaldoDetail] = React.useState<boolean>(false);
@@ -72,6 +74,7 @@ export function CarauselHome({
                     ? `${talanganFiltered.length} Talangan belm di kembalikan`
                     : "Semua talangan sudah di kembalikan"
             }`,
+            onclick: () => setTalanganDetail(!talanganDetail),
         },
     ];
 
@@ -173,6 +176,36 @@ export function CarauselHome({
                                     </small>
                                 </div>
                             ))}
+                        </span>
+                    }
+                />
+            )}
+
+            {talanganDetail && (
+                <SubModal
+                    isOpen={talanganDetail}
+                    setIsOpen={setTalanganDetail}
+                    title="Detail Talangan"
+                    description="Rekap talangan yang belum di kembalikan."
+                    content={
+                        <span className="flex flex-col items-center justify-center gap-2">
+                            {talanganCounts.map(
+                                (talangan: any, index: number) => (
+                                    <div
+                                        key={index}
+                                        className="px-5 flex gap-5 py-1.5 border text-white rounded-md items-center justify-center"
+                                    >
+                                        <small className="font-semibold">
+                                            {talangan.tujuan}
+                                        </small>
+                                        -
+                                        <small>
+                                            {formatAmount(talangan.amount)} -{" "}
+                                            {talangan.user.name}
+                                        </small>
+                                    </div>
+                                )
+                            )}
                         </span>
                     }
                 />

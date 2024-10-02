@@ -6,7 +6,6 @@ use App\Models\Galon;
 use App\Models\Ledger;
 use App\Models\Talangan;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -51,6 +50,9 @@ class DashboardController extends Controller
 
         $users = User::all();
 
+        $talanganQuery = Talangan::with('user');
+        $talanganDetail = $talanganQuery->where('dikembalikan', false)->get();
+
         return Inertia::render('Dashboard', [
             'saldoCounts' => $saldo,
             'galonDrivers' => $galonDriver,
@@ -58,6 +60,7 @@ class DashboardController extends Controller
             'peopleRemaining' => $peopleRemaining,
             'kas' => $kas,  
             'talangan' => $currentTalangan,
+            'talanganCounts' => $talanganDetail,
         ]);
     }
 }
