@@ -30,8 +30,6 @@ export function CarauselHome({
     const [saldoDetail, setSaldoDetail] = React.useState<boolean>(false);
     const [talanganDetail, setTalanganDetail] = React.useState<boolean>(false);
 
-    console.log(saldoCounts);
-
     const talanganFiltered = talangans.filter((talangan: any) => {
         return talangan.dikembalikan == 0;
     });
@@ -46,8 +44,10 @@ export function CarauselHome({
                     ? "🥵 Saldo Abis bang"
                     : currentSaldo === 0.5 * kas
                     ? "🫣 Saldo tinggal setegah"
-                    : currentSaldo < 0.5 * kas
+                    : currentSaldo < 0.5 * kas && currentSaldo == 1
                     ? "Saldo dikit lagi abis"
+                    : currentSaldo < 0
+                    ? "🤑 Saldo minus bang"
                     : "🤫🙂‍↔️ Masi kaya broh.."
             }`,
             onclick: () => setSaldoDetail(!saldoDetail),
